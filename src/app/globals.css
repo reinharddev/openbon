@@ -16,8 +16,20 @@
 	--danger-fill: #dc2626;
 }
 
+:root[data-theme="dark"] {
+	--background: #0e0e10;
+	--foreground: #f5f5f4;
+	--muted: #a1a1aa;
+	--surface: #17171a;
+	--border: #f5f5f4;
+	--line: #3f3f46;
+	--accent-ink: #c7f542;
+	--danger: #f87171;
+}
+
+/* No-JS fallback: follow the system. */
 @media (prefers-color-scheme: dark) {
-	:root {
+	:root:not([data-theme]) {
 		--background: #0e0e10;
 		--foreground: #f5f5f4;
 		--muted: #a1a1aa;
@@ -45,7 +57,11 @@
 }
 
 html {
-	color-scheme: light dark;
+	color-scheme: light;
+}
+
+html[data-theme="dark"] {
+	color-scheme: dark;
 }
 
 body {
@@ -845,6 +861,9 @@ body {
 	.nav-links > *:nth-child(2) {
 		animation-delay: 0.22s;
 	}
+	.nav-links > *:nth-child(3) {
+		animation-delay: 0.32s;
+	}
 	.page-in {
 		animation: page-in 0.5s 0.05s ease-out both;
 	}
@@ -874,5 +893,108 @@ body {
 	to {
 		opacity: 1;
 		translate: 0 0;
+	}
+}
+
+/* Theme toggle. */
+.theme-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 2px solid var(--border);
+	border-radius: 0.75rem;
+	background: var(--surface);
+	color: var(--foreground);
+	box-shadow: 3px 3px 0 var(--violet);
+	cursor: pointer;
+	transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+}
+.theme-btn:hover {
+	transform: translate(-1px, -1px) rotate(-4deg);
+	box-shadow: 4px 4px 0 var(--violet);
+}
+.theme-btn:active {
+	transform: translate(2px, 2px);
+	box-shadow: 1px 1px 0 var(--violet);
+}
+.theme-icon {
+	width: 1.5rem;
+	height: 1.5rem;
+	overflow: visible;
+	transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.sun-core {
+	fill: var(--foreground);
+	transform-origin: 12px 12px;
+	transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.moon-cut {
+	transform: translate(14px, -14px);
+	transition: transform 0.6s cubic-bezier(0.5, 0, 0.2, 1);
+}
+.sun-rays {
+	transform-origin: 12px 12px;
+	transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+}
+.stars {
+	opacity: 0;
+	transform-origin: 12px 12px;
+	transform: scale(0.4) rotate(-40deg);
+	transition: transform 0.6s 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s 0.15s;
+}
+:root[data-theme="dark"] .theme-icon {
+	transform: rotate(-35deg);
+}
+:root[data-theme="dark"] .sun-core {
+	transform: scale(1.35);
+}
+:root[data-theme="dark"] .moon-cut {
+	transform: translate(4.5px, -3.5px);
+}
+:root[data-theme="dark"] .sun-rays {
+	transform: scale(0.3) rotate(90deg);
+	opacity: 0;
+}
+:root[data-theme="dark"] .stars {
+	opacity: 1;
+	transform: none;
+}
+
+/* View-transition circle reveal: let our own animation drive it. */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+	z-index: 0;
+}
+::view-transition-new(root) {
+	z-index: 1;
+}
+
+/* Fallback: smooth color fade where view transitions are missing. */
+.theme-fade,
+.theme-fade *,
+.theme-fade *::before,
+.theme-fade *::after {
+	transition:
+		background-color 0.5s ease,
+		color 0.5s ease,
+		border-color 0.5s ease,
+		fill 0.5s ease,
+		stroke 0.5s ease,
+		box-shadow 0.5s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.theme-icon,
+	.sun-core,
+	.moon-cut,
+	.sun-rays,
+	.stars {
+		transition: none;
 	}
 }

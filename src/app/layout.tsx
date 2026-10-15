@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ClickSparkles from "@/components/ClickSparkles";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,9 +19,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `try{var t=localStorage.getItem("openbon-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}`,
+					}}
+				/>
 			</head>
 			<body className="flex min-h-screen flex-col antialiased">
 				<noscript>
@@ -36,6 +42,7 @@ export default function RootLayout({
 							OpenBon
 						</Link>
 						<div className="nav-links flex items-center gap-4 text-sm font-bold">
+							<ThemeToggle />
 							<Link href="/explore" className="tap text-muted hover:text-foreground">
 								Explore
 							</Link>
