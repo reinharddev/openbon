@@ -45,9 +45,12 @@ export default function RootLayout({
 					<div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
 						<p>Free, no watermark, no ads. Your photo is processed in your browser and never uploaded.</p>
 						<div className="flex gap-4">
+							<Link href="/thanks" className="hover:text-foreground">
+								Special thanks
+							</Link>
 							{donateUrl ? (
 								<a href={donateUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
-									Buy me a coffee
+									Support OpenBon
 								</a>
 							) : null}
 							{repoUrl ? (
