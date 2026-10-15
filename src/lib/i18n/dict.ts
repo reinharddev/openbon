@@ -76,6 +76,8 @@ const en = {
 	"a4": "Nope. Making a campaign gives you a share link and a private edit key to manage or delete it later. Keep the key safe, it can't be recovered.",
 	"q5": "Can I self-host it?",
 	"a5": "Sure. OpenBon is open source under AGPL-3.0 and runs on Cloudflare Workers, D1, and R2. The README has the steps.",
+	"q6": "Are there any limits?",
+	"a6": "Per campaign: up to 10 frames, each a PNG between 200 and 2048 pixels and up to 2 MB. Beyond that, there is no cap on how many people use a campaign or how many times it is downloaded, since photos are processed on each person's device. To keep the service free for everyone, we may add fair-use limits if someone abuses it.",
 	"cta.title": "Ready to make your first frame?",
 	"cta.body": "Takes about a minute. No account, no catch.",
 
@@ -299,6 +301,8 @@ const id: Record<DictKey, string> = {
 	"a4": "Gak perlu. Habis bikin kampanye kamu dapat link berbagi dan kunci edit pribadi buat ngatur atau ngehapus kampanyenya nanti. Simpan kuncinya baik-baik, soalnya gak bisa dipulihkan.",
 	"q5": "Boleh di-host sendiri?",
 	"a5": "Boleh banget. OpenBon open source di bawah AGPL-3.0 dan jalan di Cloudflare Workers, D1, dan R2. Langkah-langkahnya ada di README.",
+	"q6": "Ada batasannya gak?",
+	"a6": "Per kampanye: maksimal 10 bingkai, tiap bingkai PNG berukuran 200 sampai 2048 piksel dan maksimal 2 MB. Di luar itu, gak ada batas berapa orang yang memakai kampanye atau berapa kali diunduh, soalnya foto diproses di perangkat masing-masing. Supaya layanan ini tetap gratis buat semua, kami mungkin menambah batas pemakaian wajar kalau ada yang menyalahgunakan.",
 	"cta.title": "Siap bikin bingkai pertamamu?",
 	"cta.body": "Cuma sekitar semenit. Gak perlu akun, gak pakai ribet.",
 

@@ -20,7 +20,7 @@ const featureDefs: { icon: AnimatedIconName; n: 1 | 2 | 3 | 4 | 5 | 6; shadow: s
 	{ icon: "user", n: 6, shadow: "card-pink", tilt: "rotate-1" },
 ];
 
-const NUMS = [1, 2, 3, 4, 5] as const;
+const NUMS = [1, 2, 3, 4, 5, 6] as const;
 const key = (k: string) => k as DictKey;
 
 function buildJsonLd(t: Translate) {
