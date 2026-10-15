@@ -47,6 +47,8 @@
 			"bucket_name": "openbon-frames"
 		}
 	],
+	// Serve the Worker on the custom domain. Cloudflare creates the DNS record automatically.
+	"routes": [{ "pattern": "openbon.my.id", "custom_domain": true }],
 	"observability": {
 		"enabled": true
 	},
