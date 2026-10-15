@@ -66,7 +66,9 @@ export default function Home() {
 		<div className="flex flex-col gap-24 pb-8">
 			<section className="grid items-center gap-10 pt-2 md:grid-cols-2">
 				<div className="flex flex-col items-start gap-6">
-					<span className="chip chip-violet -rotate-2">Open source · AGPL-3.0</span>
+					<span className="chip chip-violet hero-in -rotate-2" style={{ "--d": "0s" } as React.CSSProperties}>
+							Open source · AGPL-3.0
+						</span>
 					<h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
 						<span className="hw" style={{ "--i": 0 } as React.CSSProperties}>
 							Frame
@@ -90,7 +92,7 @@ export default function Home() {
 							strings.
 						</span>
 					</h1>
-					<p className="max-w-lg text-lg text-muted">
+					<p className="hero-in max-w-lg text-lg text-muted" style={{ "--d": "0.75s" } as React.CSSProperties}>
 						Make a photo frame, share one link, and let anyone drop their pic in. No watermark, no ads, no catch.
 					</p>
 					<div className="flex flex-wrap gap-4">
