@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { smokePuff } from "@/lib/fx";
 
 type Props = {
 	as?: "div" | "li" | "section";
@@ -11,7 +10,7 @@ type Props = {
 	children: React.ReactNode;
 };
 
-/** Pops its children in the first time they scroll into view, with a few small smoke puffs behind. */
+/** Fades its children in the first time they scroll into view. Kept gentle on purpose. */
 export default function Reveal({ as = "div", delay = 0, className = "", children }: Props) {
 	const ref = useRef<HTMLElement>(null);
 	const Tag = as as React.ElementType;
@@ -31,8 +30,7 @@ export default function Reveal({ as = "div", delay = 0, className = "", children
 				io.disconnect();
 				timer = setTimeout(() => {
 					el.classList.add("is-in");
-					smokePuff(el);
-				}, delay);
+				}, Math.min(delay, 120));
 			},
 			{ threshold: 0.12, rootMargin: "0px 0px -5% 0px" },
 		);

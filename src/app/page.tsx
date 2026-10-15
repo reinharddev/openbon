@@ -126,7 +126,7 @@ export default function Home() {
 							strings.
 						</span>
 					</h1>
-					<p className="hero-in max-w-lg text-lg text-muted" style={{ "--d": "0.75s" } as React.CSSProperties}>
+					<p className="hero-in max-w-lg text-lg text-muted" style={{ "--d": "0.45s" } as React.CSSProperties}>
 						Make a photo frame, share one link, and let anyone drop their pic in. No watermark, no ads, no catch.
 					</p>
 					<div className="flex flex-wrap gap-4">

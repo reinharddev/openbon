@@ -59,10 +59,10 @@ export function sparkleBurst(x: number, y: number) {
 	const pattern = pick(["radial", "fountain", "ring"] as const);
 	const palette = [...COLORS].sort(() => Math.random() - 0.5).slice(0, 2 + Math.floor(Math.random() * 2));
 	const shapes = [...SHAPES].sort(() => Math.random() - 0.5).slice(0, 2 + Math.floor(Math.random() * 2));
-	const count = pattern === "ring" ? 8 : Math.round(rand(5, 9));
+	const count = pattern === "ring" ? 8 : Math.round(rand(4, 6));
 
 	for (let i = 0; i < count; i++) {
-		const size = rand(6, 13);
+		const size = rand(5, 9);
 		const el = makePiece(x, y, size, size, pick(shapes), pick(palette));
 		let dx: number;
 		let dy: number;
