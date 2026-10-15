@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import FilePicker from "./FilePicker";
 
 type FrameInfo = { id: string; width: number; height: number };
 
@@ -19,6 +20,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 	const [transform, setTransform] = useState<Transform>(INITIAL);
 	const [frameImages, setFrameImages] = useState<Record<string, HTMLImageElement>>({});
 	const [busy, setBusy] = useState(false);
+	const [fileName, setFileName] = useState("");
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const pointers = useRef(new Map<number, { x: number; y: number }>());
@@ -70,8 +72,10 @@ export default function PhotoEditor({ slug, frames }: Props) {
 		if (canvasRef.current) draw(canvasRef.current);
 	}, [draw]);
 
-	function onPickPhoto(file: File | undefined) {
+	function onPickPhoto(files: FileList | null) {
+		const file = files?.[0];
 		if (!file) return;
+		setFileName(file.name);
 		const url = URL.createObjectURL(file);
 		const img = new Image();
 		img.onload = () => {
@@ -159,12 +163,12 @@ export default function PhotoEditor({ slug, frames }: Props) {
 					<label className="mb-2 block text-sm font-medium" htmlFor="photo">
 						1. Choose a photo
 					</label>
-					<input
+					<FilePicker
 						id="photo"
-						type="file"
 						accept="image/*"
-						onChange={(e) => onPickPhoto(e.target.files?.[0])}
-						className="block w-full text-sm file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-accent file:px-3 file:py-2 file:font-medium file:text-accent-foreground"
+						buttonLabel="Choose photo"
+						status={fileName || "No file chosen"}
+						onFiles={onPickPhoto}
 					/>
 					<p className="mt-2 text-xs text-muted">Your photo is not uploaded. Everything is processed on your device.</p>
 				</div>
@@ -204,7 +208,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						value={transform.scale}
 						disabled={!photo}
 						onChange={(e) => setTransform((t) => ({ ...t, scale: Number(e.target.value) }))}
-						className="w-full accent-[var(--accent)]"
+						className="range"
 					/>
 					<div className="mt-2 flex items-center justify-between text-xs text-muted">
 						<span>Drag the photo in the preview, pinch to zoom.</span>

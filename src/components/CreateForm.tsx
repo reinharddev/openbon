@@ -2,13 +2,48 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import FilePicker from "./FilePicker";
 
 const MAX_FRAMES = 10;
 const MAX_BYTES = 2 * 1024 * 1024;
 
 type Created = { slug: string; editKey: string };
 
-const inputClass = "w-full rounded-md border border-border bg-surface px-3 py-2 text-sm";
+const inputClass = "w-full resize-none rounded-md border border-border bg-surface px-3 py-2 text-sm";
+
+function Choice({
+	checked,
+	onSelect,
+	title,
+	body,
+}: {
+	checked: boolean;
+	onSelect: () => void;
+	title: string;
+	body: string;
+}) {
+	return (
+		<label
+			className={`flex cursor-pointer items-start gap-3 rounded-lg border bg-surface p-3 text-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
+				checked ? "border-accent" : "border-border hover:border-muted"
+			}`}
+		>
+			<input type="radio" name="visibility" checked={checked} onChange={onSelect} className="sr-only" />
+			<span
+				aria-hidden="true"
+				className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${
+					checked ? "border-accent" : "border-muted"
+				}`}
+			>
+				{checked ? <span className="h-2 w-2 rounded-full bg-accent" /> : null}
+			</span>
+			<span>
+				<span className="block font-medium">{title}</span>
+				<span className="block text-muted">{body}</span>
+			</span>
+		</label>
+	);
+}
 
 export default function CreateForm() {
 	const [title, setTitle] = useState("");
@@ -124,7 +159,7 @@ export default function CreateForm() {
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
 					className={inputClass}
-					placeholder="Contoh: Community Cleanup Day"
+					placeholder="e.g. Community Cleanup Day"
 				/>
 			</div>
 
@@ -146,47 +181,32 @@ export default function CreateForm() {
 				<label htmlFor="frames" className="mb-1 block text-sm font-medium">
 					Frames (transparent PNG, up to {MAX_FRAMES} files, 2 MB each)
 				</label>
-				<input
+				<FilePicker
 					id="frames"
-					type="file"
 					accept="image/png"
 					multiple
-					onChange={(e) => onFiles(e.target.files)}
-					className="block w-full text-sm file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-accent file:px-3 file:py-2 file:font-medium file:text-accent-foreground"
+					buttonLabel="Choose frames"
+					status={files.length > 0 ? `${files.length} file(s) selected` : "No file chosen"}
+					onFiles={onFiles}
 				/>
-				{files.length > 0 ? <p className="mt-1 text-xs text-muted">{files.length} file(s) selected</p> : null}
 				<p className="mt-1 text-xs text-muted">Size 200 to 2048 px. Square (1:1) works best.</p>
 			</div>
 
 			<fieldset>
-				<legend className="mb-1 text-sm font-medium">Visibility</legend>
-				<div className="flex flex-col gap-2 text-sm">
-					<label className="flex items-start gap-2">
-						<input
-							type="radio"
-							name="visibility"
-							checked={visibility === "unlisted"}
-							onChange={() => setVisibility("unlisted")}
-							className="mt-1"
-						/>
-						<span>
-							<span className="font-medium">Anyone with the link</span>
-							<span className="block text-muted">Not listed on Explore or in search engines.</span>
-						</span>
-					</label>
-					<label className="flex items-start gap-2">
-						<input
-							type="radio"
-							name="visibility"
-							checked={visibility === "public"}
-							onChange={() => setVisibility("public")}
-							className="mt-1"
-						/>
-						<span>
-							<span className="font-medium">Public</span>
-							<span className="block text-muted">Listed on the Explore page.</span>
-						</span>
-					</label>
+				<legend className="mb-2 text-sm font-medium">Visibility</legend>
+				<div className="grid gap-3 sm:grid-cols-2">
+					<Choice
+						checked={visibility === "unlisted"}
+						onSelect={() => setVisibility("unlisted")}
+						title="Anyone with the link"
+						body="Not listed on Explore or in search engines."
+					/>
+					<Choice
+						checked={visibility === "public"}
+						onSelect={() => setVisibility("public")}
+						title="Public"
+						body="Listed on the Explore page."
+					/>
 				</div>
 			</fieldset>
 

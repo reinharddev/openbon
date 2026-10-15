@@ -8,6 +8,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
 	const [deleted, setDeleted] = useState(false);
+	const [confirming, setConfirming] = useState(false);
 
 	useEffect(() => {
 		try {
@@ -17,7 +18,6 @@ export default function ManagePanel({ slug }: { slug: string }) {
 	}, [slug]);
 
 	async function onDelete() {
-		if (!window.confirm("Delete this campaign permanently? Its link will stop working.")) return;
 		setBusy(true);
 		setError(null);
 		try {
@@ -72,16 +72,39 @@ export default function ManagePanel({ slug }: { slug: string }) {
 
 			{error ? <p className="text-sm text-danger">{error}</p> : null}
 
-			<div>
-				<button
-					type="button"
-					onClick={onDelete}
-					disabled={!key || busy}
-					className="rounded-md bg-danger px-4 py-2 font-medium text-white disabled:opacity-50"
-				>
-					Delete campaign
-				</button>
-			</div>
+			{confirming ? (
+				<div className="flex flex-col gap-3 rounded-lg border border-danger p-4">
+					<p className="text-sm">Delete this campaign permanently? Its link will stop working.</p>
+					<div className="flex gap-3">
+						<button
+							type="button"
+							onClick={onDelete}
+							disabled={busy}
+							className="rounded-md bg-danger px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+						>
+							{busy ? "Deleting..." : "Yes, delete"}
+						</button>
+						<button
+							type="button"
+							onClick={() => setConfirming(false)}
+							className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-accent"
+						>
+							Cancel
+						</button>
+					</div>
+				</div>
+			) : (
+				<div>
+					<button
+						type="button"
+						onClick={() => setConfirming(true)}
+						disabled={!key}
+						className="rounded-md bg-danger px-4 py-2 font-medium text-white disabled:opacity-50"
+					>
+						Delete campaign
+					</button>
+				</div>
+			)}
 		</div>
 	);
 }
