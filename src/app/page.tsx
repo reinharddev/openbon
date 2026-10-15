@@ -1,6 +1,7 @@
 import Link from "next/link";
 import FunTip from "@/components/FunTip";
 import HeroMock from "@/components/HeroMock";
+import Reveal from "@/components/Reveal";
 import AnimatedIcon, { type AnimatedIconName } from "@/components/AnimatedIcon";
 import Icon from "@/components/Icon";
 
@@ -88,96 +89,120 @@ export default function Home() {
 						</FunTip>
 					</div>
 				</div>
-				<HeroMock />
+				<Reveal delay={150}>
+					<HeroMock />
+				</Reveal>
 			</section>
 
 			<section aria-labelledby="features">
-				<h2 id="features" className="mb-8 max-w-xl text-3xl font-extrabold tracking-tight">
-					Everything that's usually paid.
-					<span className="mark ml-2">Included.</span>
-				</h2>
+				<Reveal>
+					<h2 id="features" className="mb-8 max-w-xl text-3xl font-extrabold tracking-tight">
+						Everything that's usually paid.
+						<span className="mark ml-2">Included.</span>
+					</h2>
+				</Reveal>
 				<ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-					{features.map((f) => (
-						<li key={f.title} className={`card ico-host ${f.shadow} ${f.tilt} p-5`}>
-							<span className="mb-3 inline-flex">
-								<AnimatedIcon name={f.icon} />
-							</span>
-							<h3 className="mb-1 text-lg font-extrabold">{f.title}</h3>
-							<p className="text-sm text-muted">{f.body}</p>
+					{features.map((f, i) => (
+						<li key={f.title}>
+							<Reveal delay={(i % 3) * 110} className="h-full">
+								<div className={`card ico-host h-full ${f.shadow} ${f.tilt} p-5`}>
+									<span className="mb-3 inline-flex">
+										<AnimatedIcon name={f.icon} />
+									</span>
+									<h3 className="mb-1 text-lg font-extrabold">{f.title}</h3>
+									<p className="text-sm text-muted">{f.body}</p>
+								</div>
+							</Reveal>
 						</li>
 					))}
 				</ul>
 			</section>
 
 			<section aria-labelledby="how">
-				<h2 id="how" className="mb-8 text-3xl font-extrabold tracking-tight">
-					How it works
-				</h2>
+				<Reveal>
+					<h2 id="how" className="mb-8 text-3xl font-extrabold tracking-tight">
+						How it works
+					</h2>
+				</Reveal>
 				<ol className="grid gap-6 md:grid-cols-3">
 					{steps.map((step, i) => (
-						<li key={step.title} className="card card-ink flex gap-4 p-5">
-							<span className="chip chip-lime h-9 w-9 shrink-0 text-center text-lg leading-6">{i + 1}</span>
-							<div>
-								<h3 className="mb-1 font-extrabold">{step.title}</h3>
-								<p className="text-sm text-muted">{step.body}</p>
-							</div>
+						<li key={step.title}>
+							<Reveal delay={i * 120} className="h-full">
+								<div className="card card-ink flex h-full gap-4 p-5">
+									<span className="chip chip-lime h-9 w-9 shrink-0 text-center text-lg leading-6">{i + 1}</span>
+									<div>
+										<h3 className="mb-1 font-extrabold">{step.title}</h3>
+										<p className="text-sm text-muted">{step.body}</p>
+									</div>
+								</div>
+							</Reveal>
 						</li>
 					))}
 				</ol>
 			</section>
 
-			<section aria-labelledby="privacy" className="card card-violet grid gap-8 p-8 md:grid-cols-2">
-				<div>
-					<h2 id="privacy" className="text-3xl font-extrabold tracking-tight">
-						Your photo stays on your device.
-					</h2>
-					<p className="mt-2 text-muted">
-						There's nothing to leak: no uploads, no profiles, and no tracking of who uses what.
-					</p>
+			<Reveal as="section">
+				<div role="region" aria-labelledby="privacy" className="card card-violet grid gap-8 p-8 md:grid-cols-2">
+					<div>
+						<h2 id="privacy" className="text-3xl font-extrabold tracking-tight">
+							Your photo stays on your device.
+						</h2>
+						<p className="mt-2 text-muted">
+							There's nothing to leak: no uploads, no profiles, and no tracking of who uses what.
+						</p>
+					</div>
+					<ul className="flex flex-col gap-3 text-sm font-bold">
+						{[
+							"Photos are composed on a canvas in your browser",
+							"Only the creator's frame file is stored on the server",
+							"No analytics, no ad networks, no third-party trackers",
+							"Each campaign shows one anonymous usage counter",
+						].map((item) => (
+							<li key={item} className="flex items-start gap-3">
+								<span className="chip chip-lime mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center p-0">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" className="h-3 w-3" aria-hidden="true">
+										<path d="m5 12 5 5L20 7" strokeLinecap="round" strokeLinejoin="round" />
+									</svg>
+								</span>
+								<span>{item}</span>
+							</li>
+						))}
+					</ul>
 				</div>
-				<ul className="flex flex-col gap-3 text-sm font-bold">
-					{[
-						"Photos are composed on a canvas in your browser",
-						"Only the creator's frame file is stored on the server",
-						"No analytics, no ad networks, no third-party trackers",
-						"Each campaign shows one anonymous usage counter",
-					].map((item) => (
-						<li key={item} className="flex items-start gap-3">
-							<span className="chip chip-lime mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center p-0">
-								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" className="h-3 w-3" aria-hidden="true">
-									<path d="m5 12 5 5L20 7" strokeLinecap="round" strokeLinejoin="round" />
-								</svg>
-							</span>
-							<span>{item}</span>
+			</Reveal>
+
+			<section aria-labelledby="faq" className="grid gap-8 md:grid-cols-[1fr_2fr]">
+				<Reveal>
+					<h2 id="faq" className="text-3xl font-extrabold tracking-tight">
+						Questions
+					</h2>
+				</Reveal>
+				<ul className="flex flex-col gap-4">
+					{faqs.map((item, i) => (
+						<li key={item.q}>
+							<Reveal delay={i * 70}>
+								<div className={`card p-5 ${i % 2 === 0 ? "card-lime" : "card-pink"}`}>
+									<h3 className="font-extrabold">{item.q}</h3>
+									<p className="mt-1 text-sm text-muted">{item.a}</p>
+								</div>
+							</Reveal>
 						</li>
 					))}
 				</ul>
 			</section>
 
-			<section aria-labelledby="faq" className="grid gap-8 md:grid-cols-[1fr_2fr]">
-				<h2 id="faq" className="text-3xl font-extrabold tracking-tight">
-					Questions
-				</h2>
-				<dl className="flex flex-col gap-4">
-					{faqs.map((item, i) => (
-						<div key={item.q} className={`card p-5 ${i % 2 === 0 ? "card-lime" : "card-pink"}`}>
-							<dt className="font-extrabold">{item.q}</dt>
-							<dd className="mt-1 text-sm text-muted">{item.a}</dd>
-						</div>
-					))}
-				</dl>
-			</section>
-
-			<section className="card card-pink flex flex-col items-start gap-4 p-8 sm:flex-row sm:items-center sm:justify-between">
-				<div>
-					<h2 className="text-3xl font-extrabold tracking-tight">Ready to make your first frame?</h2>
-					<p className="mt-1 text-muted">Takes about a minute. No account, no catch.</p>
+			<Reveal as="section">
+				<div className="card card-pink flex flex-col items-start gap-4 p-8 sm:flex-row sm:items-center sm:justify-between">
+					<div>
+						<h2 className="text-3xl font-extrabold tracking-tight">Ready to make your first frame?</h2>
+						<p className="mt-1 text-muted">Takes about a minute. No account, no catch.</p>
+					</div>
+					<Link href="/create" className="btn btn-lime shrink-0">
+						Make a frame
+						<Icon name="arrow" className="h-4 w-4" />
+					</Link>
 				</div>
-				<Link href="/create" className="btn btn-lime shrink-0">
-					Make a frame
-					<Icon name="arrow" className="h-4 w-4" />
-				</Link>
-			</section>
+			</Reveal>
 		</div>
 	);
 }

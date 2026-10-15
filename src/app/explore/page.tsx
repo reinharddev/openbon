@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Reveal from "@/components/Reveal";
 import { listPublicCampaigns } from "@/lib/campaigns";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +31,7 @@ export default async function ExplorePage() {
 			) : (
 				<ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
 					{campaigns.map((c, i) => (
-						<li key={c.id}>
+						<Reveal as="li" key={c.id} delay={(i % 4) * 70}>
 							<Link href={`/c/${c.slug}`} className={`card ${SHADOWS[i % SHADOWS.length]} block overflow-hidden`}>
 								<div className="checker aspect-square border-b-2 border-border">
 									{c.cover_frame_id ? (
@@ -48,7 +49,7 @@ export default async function ExplorePage() {
 									<p className="text-xs text-muted">{c.uses.toLocaleString("en-US")} uses</p>
 								</div>
 							</Link>
-						</li>
+						</Reveal>
 					))}
 				</ul>
 			)}

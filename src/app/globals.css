@@ -642,3 +642,37 @@ body {
 		transform: translate(0, -2px) rotate(-1deg);
 	}
 }
+
+/* Scroll reveal: hidden until Reveal adds .is-in, then pops in. */
+.reveal {
+	position: relative;
+	isolation: isolate;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.reveal:not(.is-in) {
+		opacity: 0;
+	}
+	.reveal.is-in {
+		animation: reveal-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+}
+
+@keyframes reveal-pop {
+	0% {
+		opacity: 0;
+		transform: translateY(22px) scale(0.9);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(-3px) scale(1.03);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+body {
+	overflow-x: clip;
+}

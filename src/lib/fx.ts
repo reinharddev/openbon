@@ -112,3 +112,32 @@ export function confettiBurst(x: number, y: number, count = 36) {
 		);
 	}
 }
+
+/**
+ * A few small smoke puffs that "spawn" behind an element as it pops in.
+ * The element must be `position: relative` with its own stacking context (see `.reveal`).
+ */
+export function smokePuff(el: HTMLElement, count = 3) {
+	if (reducedMotion()) return;
+	const w = el.clientWidth;
+	for (let i = 0; i < count; i++) {
+		const size = rand(26, 38);
+		const puff = document.createElement("span");
+		puff.setAttribute("aria-hidden", "true");
+		const x = (w * (0.15 + (0.55 * (i + Math.random() * 0.6)) / count)) - size / 2;
+		puff.style.cssText = `position:absolute;left:${Math.max(0, x)}px;bottom:${-rand(8, 16)}px;width:${size}px;height:${size}px;border-radius:50%;background:color-mix(in srgb, var(--foreground) 22%, transparent);filter:blur(7px);pointer-events:none;z-index:-1;`;
+		el.appendChild(puff);
+		const rise = rand(14, 30);
+		const drift = rand(-10, 10);
+		const anim = puff.animate(
+			[
+				{ transform: "translate(0,6px) scale(0.3)", opacity: 0 },
+				{ transform: `translate(${drift * 0.5}px,${-rise * 0.4}px) scale(1.1)`, opacity: 0.85, offset: 0.35 },
+				{ transform: `translate(${drift}px,${-rise}px) scale(1.7)`, opacity: 0 },
+			],
+			{ duration: rand(650, 950), delay: rand(0, 120), easing: "cubic-bezier(0.2, 0.7, 0.3, 1)", fill: "both" },
+		);
+		anim.onfinish = () => puff.remove();
+		anim.oncancel = () => puff.remove();
+	}
+}
