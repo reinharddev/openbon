@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { confettiBurst } from "@/lib/fx";
+import Sticker from "./Sticker";
 import FilePicker from "./FilePicker";
 
 const MAX_FRAMES = 10;
@@ -130,6 +131,7 @@ export default function CreateForm() {
 						<h2 className="text-xl font-extrabold">Boom, it's live.</h2>
 						<p className="text-sm text-muted">Share the link and watch the frames roll in.</p>
 					</div>
+					<Sticker name="free" tilt={10} className="sticker-in ml-auto hidden w-16 shrink-0 sm:block" />
 				</div>
 				<div>
 					<p className="mb-1 text-sm font-extrabold">Share link</p>

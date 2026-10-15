@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Sticker from "@/components/Sticker";
 import { supporters } from "@/content/supporters";
 
 export const metadata: Metadata = { title: "Special thanks" };
@@ -22,7 +23,8 @@ export default function ThanksPage() {
 			</div>
 
 			{list.length === 0 ? (
-				<div className="card card-ink p-8 text-center">
+				<div className="card card-ink flex flex-col items-center p-8 text-center">
+					<Sticker name="heart" tilt={-7} className="sticker-in mb-3 w-20" />
 					<p className="text-muted">No supporters listed yet. You could be the first.</p>
 					{donateUrl ? (
 						<a href={donateUrl} target="_blank" rel="noopener noreferrer" className="btn btn-lime mt-4">

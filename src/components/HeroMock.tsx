@@ -1,4 +1,6 @@
-/** Decorative sticker: a profile photo placeholder wrapped by a campaign frame. */
+import Sticker from "./Sticker";
+
+/** Decorative mock: a profile photo placeholder wrapped by a campaign frame, plus a few stickers. */
 export default function HeroMock() {
 	return (
 		<div className="relative mx-auto flex w-full max-w-xs justify-center p-6" aria-hidden="true">
@@ -13,9 +15,17 @@ export default function HeroMock() {
 			<span className="chip chip-pink absolute bottom-2 left-0 -rotate-6 shadow-[3px_3px_0_var(--border)]">
 				Join the campaign
 			</span>
-			<span className="chip chip-violet absolute right-0 top-2 rotate-6 shadow-[3px_3px_0_var(--border)]">
-				0 watermarks
-			</span>
+			<Sticker name="nowm" tilt={10} className="sticker-in absolute -right-1 -top-1 hidden w-24 sm:block" />
+			<Sticker
+				name="free"
+				tilt={-12}
+				className="sticker-in absolute -left-1 top-0 hidden w-20 sm:block"
+			/>
+			<Sticker
+				name="camera"
+				tilt={8}
+				className="sticker-in absolute -bottom-2 right-2 hidden w-20 sm:block"
+			/>
 		</div>
 	);
 }

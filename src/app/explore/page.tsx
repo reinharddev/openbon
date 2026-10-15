@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import Sticker from "@/components/Sticker";
 import { listPublicCampaigns } from "@/lib/campaigns";
 
 export const dynamic = "force-dynamic";

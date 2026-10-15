@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { confettiBurst } from "@/lib/fx";
 import FilePicker from "./FilePicker";
+import Sticker from "./Sticker";
 
 type FrameInfo = { id: string; width: number; height: number };
 
