@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FunTip from "@/components/FunTip";
 import HeroMock from "@/components/HeroMock";
 import AnimatedIcon, { type AnimatedIconName } from "@/components/AnimatedIcon";
 import Icon from "@/components/Icon";
@@ -10,6 +11,27 @@ const features: { icon: AnimatedIconName; title: string; body: string; shadow: s
 	{ icon: "layers", title: "Up to 10 frames", body: "Give people options. One campaign, as many as ten frame variations.", shadow: "card-violet", tilt: "rotate-1" },
 	{ icon: "link", title: "Public or link-only", body: "List it on Explore, or keep it hidden for people who have the link.", shadow: "card-lime", tilt: "-rotate-1" },
 	{ icon: "user", title: "No account needed", body: "Participants just open the link. Creators get a share link and an edit key.", shadow: "card-pink", tilt: "rotate-1" },
+];
+
+const makeTips = [
+	"Do it, do it!",
+	"Psst... it's free.",
+	"Your face deserves a frame.",
+	"Ooh, bold choice.",
+	"No watermark. Promise.",
+	"Go on then...",
+	"Frames are fun!",
+	"Click me, I dare you.",
+];
+
+const galleryTips = [
+	"Just peeking? Same.",
+	"Nosy. I like it.",
+	"Other people's frames!",
+	"Browse responsibly.",
+	"So many frames...",
+	"Look, but also touch.",
+	"Gallery time!",
 ];
 
 const steps = [
@@ -53,13 +75,17 @@ export default function Home() {
 						Make a photo frame, share one link, and let anyone drop their pic in. No watermark, no ads, no catch.
 					</p>
 					<div className="flex flex-wrap gap-4">
-						<Link href="/create" className="btn btn-lime">
-							Make a frame
-							<Icon name="arrow" className="h-4 w-4" />
-						</Link>
-						<Link href="/explore" className="btn btn-ghost">
-							Peek at the gallery
-						</Link>
+						<FunTip messages={makeTips}>
+							<Link href="/create" className="btn btn-lime">
+								Make a frame
+								<Icon name="arrow" className="h-4 w-4" />
+							</Link>
+						</FunTip>
+						<FunTip messages={galleryTips}>
+							<Link href="/explore" className="btn btn-ghost">
+								Peek at the gallery
+							</Link>
+						</FunTip>
 					</div>
 				</div>
 				<HeroMock />

@@ -485,3 +485,97 @@ body {
 		transform: rotate(360deg) scale(1);
 	}
 }
+
+/* Cheeky hover tips (mouse only; the component ignores touch and pen). */
+.funtip-host {
+	position: relative;
+	display: inline-flex;
+}
+
+.funtip {
+	position: absolute;
+	left: 8px;
+	bottom: calc(100% + 14px);
+	z-index: 30;
+	width: max-content;
+	max-width: min(15rem, 80vw);
+	pointer-events: none;
+}
+
+.funtip-bubble {
+	position: relative;
+	display: block;
+	border: 2px solid var(--border);
+	border-radius: 14px;
+	padding: 0.4rem 0.75rem;
+	color: #0c0c0d;
+	font-size: 0.85rem;
+	font-weight: 800;
+	line-height: 1.25;
+	box-shadow: 3px 3px 0 var(--border);
+	transform-origin: 20px 100%;
+	transform: rotate(var(--tilt));
+}
+
+.funtip-bubble::after {
+	content: "";
+	position: absolute;
+	left: 14px;
+	bottom: -8px;
+	width: 12px;
+	height: 12px;
+	background: inherit;
+	border-right: 2px solid var(--border);
+	border-bottom: 2px solid var(--border);
+	transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.funtip-bubble {
+		animation:
+			tip-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+			tip-wiggle 1.3s 0.5s ease-in-out infinite;
+	}
+	.funtip-bubble[data-leaving="true"] {
+		animation: tip-out 0.2s ease-in both;
+	}
+}
+
+@keyframes tip-in {
+	0% {
+		opacity: 0;
+		transform: scale(0) rotate(calc(var(--tilt) * -3)) translateY(10px);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.18, 0.88) rotate(var(--tilt)) translateY(-2px);
+	}
+	75% {
+		transform: scale(0.96, 1.06) rotate(var(--tilt));
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1) rotate(var(--tilt));
+	}
+}
+
+@keyframes tip-wiggle {
+	0%,
+	100% {
+		transform: rotate(var(--tilt)) translateY(0);
+	}
+	50% {
+		transform: rotate(calc(var(--tilt) * -0.6)) translateY(-3px);
+	}
+}
+
+@keyframes tip-out {
+	from {
+		opacity: 1;
+		transform: scale(1) rotate(var(--tilt));
+	}
+	to {
+		opacity: 0;
+		transform: scale(0.4) rotate(calc(var(--tilt) * 2)) translateY(6px);
+	}
+}
