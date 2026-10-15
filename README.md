@@ -31,7 +31,7 @@ npx wrangler d1 migrations apply openbon --remote
 npm run deploy
 ```
 
-Optional variables (set at build time, e.g. in `.env.local` or the dashboard):
+Optional variables (set at build time). Copy `.env.example` to `.env.local` and fill in what you need:
 
 | Variable | Purpose |
 |---|---|
