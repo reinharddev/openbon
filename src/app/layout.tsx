@@ -23,7 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
 		keywords: [
 			"photo frame",
 			"profile picture frame",
-			"twibbon alternative",
 			"bingkai foto",
 			"campaign frame",
 			"no watermark",

@@ -248,7 +248,7 @@ const id: Record<DictKey, string> = {
 	"faq.stuck": "Masih bingung?",
 	"faq.stuckBody": "Tanya aja di GitHub, nanti dibantu.",
 	"q1": "Beneran gratis?",
-	"a1": "Beneran. Gak ada paket berbayar, gak ada watermark, gak ada iklan. Biaya server ditutup dari donasi sukarela.",
+	"a1": "Beneran. Gak ada paket berbayar, gak ada watermark, gak ada iklan",
 	"q2": "Foto wajahku disimpan di mana?",
 	"a2": "Gak disimpan di mana-mana. Foto wajahmu gak pernah diunggah atau disimpan: browser yang nempelin ke bingkai, lalu hasilnya langsung tersimpan di perangkatmu. Yang ada di server cuma file bingkai dari pembuat kampanye.",
 	"q3": "Butuh apa buat bikin bingkai?",
