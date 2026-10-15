@@ -10,6 +10,9 @@ const CLIP: Partial<Record<Shape, string>> = {
 
 const SHAPES: Shape[] = ["star", "plus", "diamond", "dot", "square"];
 
+let active = 0;
+const MAX_ACTIVE = 90;
+
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const pick = <T,>(list: readonly T[]): T => list[Math.floor(Math.random() * list.length)];
 
@@ -26,6 +29,7 @@ function makePiece(x: number, y: number, w: number, h: number, shape: Shape, col
 	if (shape === "dot") el.style.borderRadius = "50%";
 	if (shape === "square") el.style.borderRadius = "2px";
 	document.body.appendChild(el);
+	active += 1;
 	return el;
 }
 
@@ -41,13 +45,17 @@ function fly(
 		easing: "cubic-bezier(0.2, 0.7, 0.3, 1)",
 		fill: "both",
 	});
-	anim.onfinish = () => el.remove();
-	anim.oncancel = () => el.remove();
+	const done = () => {
+		el.remove();
+		active = Math.max(0, active - 1);
+	};
+	anim.onfinish = done;
+	anim.oncancel = done;
 }
 
 /** Small, randomized sparkle burst for button clicks. A different pattern, shape mix, and palette each time. */
 export function sparkleBurst(x: number, y: number) {
-	if (reducedMotion()) return;
+	if (reducedMotion() || active > MAX_ACTIVE) return;
 	const pattern = pick(["radial", "fountain", "ring"] as const);
 	const palette = [...COLORS].sort(() => Math.random() - 0.5).slice(0, 2 + Math.floor(Math.random() * 2));
 	const shapes = [...SHAPES].sort(() => Math.random() - 0.5).slice(0, 2 + Math.floor(Math.random() * 2));
