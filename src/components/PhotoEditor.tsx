@@ -103,6 +103,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 		if (!photo) return;
 		e.currentTarget.setPointerCapture(e.pointerId);
 		pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+		setDragging(true);
 		if (pointers.current.size === 2) {
 			const [a, b] = Array.from(pointers.current.values());
 			pinchStart.current = { distance: Math.hypot(a.x - b.x, a.y - b.y), scale: transform.scale };
@@ -130,6 +131,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 	function onPointerUp(e: React.PointerEvent<HTMLCanvasElement>) {
 		pointers.current.delete(e.pointerId);
 		if (pointers.current.size < 2) pinchStart.current = null;
+		if (pointers.current.size === 0) setDragging(false);
 		if (pointers.current.size === 0) setDragging(false);
 	}
 
