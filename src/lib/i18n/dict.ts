@@ -5,6 +5,7 @@ export const LOCALE_COOKIE = "openbon-lang";
 const en = {
 	// Shell
 	"nav.explore": "Explore",
+	"nav.quick": "Quick navigation",
 	"nav.make": "Make a frame",
 	"nav.langLabel": "Change language",
 	"nav.themeLabel": "Toggle light and dark mode",
@@ -216,6 +217,7 @@ export type DictKey = keyof typeof en;
 
 const id: Record<DictKey, string> = {
 	"nav.explore": "Jelajah",
+	"nav.quick": "Navigasi cepat",
 	"nav.make": "Bikin bingkai",
 	"nav.langLabel": "Ganti bahasa",
 	"nav.themeLabel": "Ganti mode terang atau gelap",

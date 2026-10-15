@@ -6,6 +6,7 @@ import GithubLink from "@/components/GithubLink";
 import { I18nProvider } from "@/components/I18nProvider";
 import LangToggle from "@/components/LangToggle";
 import MotionToggle from "@/components/MotionToggle";
+import StickyNav from "@/components/StickyNav";
 import ThemeToggle from "@/components/ThemeToggle";
 import { getT } from "@/lib/i18n/server";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
@@ -80,7 +81,8 @@ export default async function RootLayout({
 				</noscript>
 				<ClickSparkles />
 				<I18nProvider locale={locale}>
-				<header>
+				<StickyNav />
+				<header id="site-header">
 					<nav className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-4">
 						<Link
 							href="/"
