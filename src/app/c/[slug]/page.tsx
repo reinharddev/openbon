@@ -55,7 +55,7 @@ export default async function CampaignPage({ params }: Props) {
 				frames={frames.map((f) => ({ id: f.id, width: f.width, height: f.height }))}
 			/>
 
-			{campaign.caption ? <CaptionBox template={campaign.caption} /> : null}
+			<CaptionBox template={campaign.caption} />
 
 			<div className="border-t-2 border-border pt-4">
 				<ReportButton slug={campaign.slug} />

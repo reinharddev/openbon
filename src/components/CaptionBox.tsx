@@ -22,7 +22,11 @@ async function copyText(text: string) {
 }
 
 /** Shows the creator's caption template; people fill in [placeholders] in a popup and copy the result. */
-export default function CaptionBox({ template }: { template: string }) {
+export default function CaptionBox({ template: creatorTemplate }: { template: string }) {
+	const hasCreator = creatorTemplate.trim().length > 0;
+	const [mode, setMode] = useState<"creator" | "paste">(hasCreator ? "creator" : "paste");
+	const [custom, setCustom] = useState("");
+	const template = mode === "creator" ? creatorTemplate : custom;
 	const keys = useMemo(() => placeholderKeys(template), [template]);
 	const parts = useMemo(() => splitCaption(template), [template]);
 	const [values, setValues] = useState<Record<string, string>>({});
@@ -54,12 +58,53 @@ export default function CaptionBox({ template }: { template: string }) {
 							Edit
 						</button>
 					) : null}
-					<button ref={copyRef} type="button" className="btn btn-lime btn-sm" onClick={() => onCopy()}>
-						{copied ? "Copied!" : "Copy"}
-					</button>
+					{template.trim() ? (
+						<button ref={copyRef} type="button" className="btn btn-lime btn-sm" onClick={() => onCopy()}>
+							{copied ? "Copied!" : "Copy"}
+						</button>
+					) : null}
 				</div>
 			</div>
 
+			{hasCreator ? (
+				<div className="flex flex-wrap gap-2" role="group" aria-label="Caption source">
+					<button
+						type="button"
+						aria-pressed={mode === "creator"}
+						onClick={() => setMode("creator")}
+						className={`chip ${mode === "creator" ? "chip-lime" : ""}`}
+					>
+						From the creator
+					</button>
+					<button
+						type="button"
+						aria-pressed={mode === "paste"}
+						onClick={() => setMode("paste")}
+						className={`chip ${mode === "paste" ? "chip-lime" : ""}`}
+					>
+						Paste your own
+					</button>
+				</div>
+			) : null}
+
+			{mode === "paste" ? (
+				<div>
+					<label htmlFor="caption-paste" className="mb-1 block text-sm font-extrabold">
+						Paste a caption template
+					</label>
+					<textarea
+						id="caption-paste"
+						rows={4}
+						maxLength={1000}
+						value={custom}
+						onChange={(e) => setCustom(e.target.value)}
+						className="field"
+						placeholder={"Paste a caption that has blanks like [Name] or [Class]. We'll let you fill them in."}
+					/>
+				</div>
+			) : null}
+
+			{template.trim() ? (
 			<p className="whitespace-pre-wrap break-words leading-relaxed">
 				{parts.map((p, i) =>
 					p.key ? (
@@ -71,6 +116,10 @@ export default function CaptionBox({ template }: { template: string }) {
 					),
 				)}
 			</p>
+			) : null}
+			{template.trim() && keys.length === 0 && mode === "paste" ? (
+				<p className="text-xs text-muted">No [blanks] found. Wrap anything you want to change in square brackets.</p>
+			) : null}
 			{keys.length > 0 ? (
 				<p className="text-xs text-muted">
 					{missing === 0
