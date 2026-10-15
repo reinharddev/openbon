@@ -1478,3 +1478,20 @@ li:nth-child(even) > .reveal > .faq[open] {
 :root[data-motion="off"] .snav {
 	animation: none !important;
 }
+
+/* On phones the floating navbar sits flush with the top edge, like a native app bar. */
+@media (max-width: 639px) {
+	.snav-wrap {
+		top: 0;
+		padding: 0;
+	}
+	.snav {
+		max-width: none;
+		border-top-width: 0;
+		border-left-width: 0;
+		border-right-width: 0;
+		border-radius: 0 0 1rem 1rem;
+		padding-top: calc(0.45rem + env(safe-area-inset-top, 0px));
+		box-shadow: 0 5px 0 var(--accent);
+	}
+}
