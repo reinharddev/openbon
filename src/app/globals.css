@@ -676,3 +676,80 @@ body {
 body {
 	overflow-x: clip;
 }
+
+/* Headline: words pop in one by one, then the highlighter sweeps across "For free." */
+.hw {
+	display: inline-block;
+}
+
+.hl {
+	position: relative;
+	display: inline-block;
+	isolation: isolate;
+	padding: 0 0.4rem;
+	white-space: nowrap;
+	color: var(--foreground);
+	transform: rotate(-1.5deg);
+}
+
+.hl::before,
+.hl::after {
+	position: absolute;
+	inset: 0;
+	clip-path: polygon(0 2%, 100% 0, 99% 100%, 1% 97%);
+}
+
+.hl::before {
+	content: "";
+	z-index: -1;
+	background: var(--accent);
+	border-radius: 6px;
+}
+
+.hl::after {
+	content: attr(data-text);
+	padding: 0 0.4rem;
+	color: var(--accent-foreground);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.hw {
+		opacity: 0;
+		animation: word-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+		animation-delay: calc(0.1s + var(--i) * 0.09s);
+	}
+	.hw:nth-of-type(odd) {
+		--r: -5deg;
+	}
+	.hw:nth-of-type(even) {
+		--r: 4deg;
+	}
+	.hl::before,
+	.hl::after {
+		animation: hl-sweep 0.6s 1.05s cubic-bezier(0.5, 0, 0.2, 1) both;
+	}
+}
+
+@keyframes word-pop {
+	0% {
+		opacity: 0;
+		transform: translateY(0.55em) rotate(var(--r, 3deg)) scale(0.7);
+	}
+	60% {
+		opacity: 1;
+		transform: translateY(-0.08em) rotate(0deg) scale(1.06);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) rotate(0) scale(1);
+	}
+}
+
+@keyframes hl-sweep {
+	from {
+		clip-path: polygon(0 2%, 0 0, 0 100%, 1% 97%);
+	}
+	to {
+		clip-path: polygon(0 2%, 100% 0, 99% 100%, 1% 97%);
+	}
+}

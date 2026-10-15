@@ -68,9 +68,27 @@ export default function Home() {
 				<div className="flex flex-col items-start gap-6">
 					<span className="chip chip-violet -rotate-2">Open source · AGPL-3.0</span>
 					<h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-						Frame your face.
+						<span className="hw" style={{ "--i": 0 } as React.CSSProperties}>
+							Frame
+						</span>{" "}
+						<span className="hw" style={{ "--i": 1 } as React.CSSProperties}>
+							your
+						</span>{" "}
+						<span className="hw" style={{ "--i": 2 } as React.CSSProperties}>
+							face.
+						</span>
 						<br />
-						<span className="mark">For free.</span> No strings.
+						<span className="hw" style={{ "--i": 3 } as React.CSSProperties}>
+							<span className="hl" data-text="For free.">
+								For free.
+							</span>
+						</span>{" "}
+						<span className="hw" style={{ "--i": 4 } as React.CSSProperties}>
+							No
+						</span>{" "}
+						<span className="hw" style={{ "--i": 5 } as React.CSSProperties}>
+							strings.
+						</span>
 					</h1>
 					<p className="max-w-lg text-lg text-muted">
 						Make a photo frame, share one link, and let anyone drop their pic in. No watermark, no ads, no catch.
