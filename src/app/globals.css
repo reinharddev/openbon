@@ -747,7 +747,7 @@ body {
 
 @keyframes hl-sweep {
 	from {
-		clip-path: polygon(0 2%, 0 0, 0 100%, 1% 97%);
+		clip-path: polygon(-3% 2%, -3% 0, -3% 100%, -3% 97%);
 	}
 	to {
 		clip-path: polygon(0 2%, 100% 0, 99% 100%, 1% 97%);
