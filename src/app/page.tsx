@@ -48,7 +48,7 @@ const repoUrl = process.env.NEXT_PUBLIC_REPO_URL;
 const faqs = [
 	{ q: "Is it really free?", a: "Yes. No paid tiers, no watermark, no ads!" },
 	{
-		q: "Where do my photos go?",
+		q: "Where do my face photos go?",
 		a: "Nowhere. Your browser places the photo on the frame and saves it straight to your device. Only the frame file is stored on the server.",
 	},
 	{
