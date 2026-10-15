@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const steps = [
 	{ title: "Unggah frame", body: "Upload PNG transparan. Satu kampanye boleh punya sampai 10 frame." },
-	{ title: "Bagikan link", body: "Kirim link ke teman, kelas, atau komunitas. Mereka tidak perlu akun." },
+	{ title: "Bagikan link", body: "Kirim link ke teman, tim, atau komunitas. Mereka tidak perlu akun." },
 	{ title: "Pasang foto", body: "Peserta memilih foto, mengatur posisi, lalu mengunduh hasilnya." },
 ];
 
@@ -11,10 +11,10 @@ export default function Home() {
 		<div className="flex flex-col gap-14">
 			<section className="flex flex-col items-start gap-5 pt-6">
 				<h1 className="max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl">
-					Twibbon gratis, tanpa watermark.
+					Frame foto gratis, tanpa watermark.
 				</h1>
 				<p className="max-w-xl text-lg text-muted">
-					OpenBon adalah alternatif open source untuk bikin frame foto kampanye. Tanpa iklan, tanpa batasan
+					OpenBon adalah platform open source untuk bikin frame foto kampanye. Tanpa iklan, tanpa batasan
 					fitur berbayar, dan foto pengguna tidak pernah meninggalkan browser.
 				</p>
 				<div className="flex flex-wrap gap-3">

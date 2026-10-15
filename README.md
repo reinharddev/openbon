@@ -1,6 +1,6 @@
 # OpenBon
 
-Alternatif open source untuk twibbon: bikin dan pakai frame foto kampanye secara gratis.
+Platform open source untuk membuat dan memakai frame foto kampanye secara gratis.
 
 - Tanpa watermark, tanpa iklan, tanpa batasan fitur berbayar
 - Foto peserta diproses 100% di browser dan tidak pernah diunggah

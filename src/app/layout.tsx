@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
 	title: { default: "OpenBon", template: "%s · OpenBon" },
 	description:
-		"Bikin dan pakai frame foto (twibbon) gratis. Tanpa watermark, tanpa iklan, tanpa pelacakan. Open source.",
+		"Bikin dan pakai frame foto untuk kampanye, acara, atau komunitas secara gratis. Tanpa watermark, tanpa iklan, tanpa pelacakan. Open source.",
 };
 
 const donateUrl = process.env.NEXT_PUBLIC_DONATE_URL;

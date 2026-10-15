@@ -124,7 +124,7 @@ export default function CreateForm() {
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
 					className={inputClass}
-					placeholder="Contoh: Dies Natalis SMA Citra Berkat"
+					placeholder="Contoh: Hari Kemerdekaan 2026"
 				/>
 			</div>
 
@@ -202,7 +202,7 @@ export default function CreateForm() {
 						onChange={(e) => setSlug(e.target.value)}
 						pattern="[a-z0-9][a-z0-9\-]{1,38}[a-z0-9]"
 						className={inputClass}
-						placeholder="dies-natalis-2026"
+						placeholder="hari-kemerdekaan-2026"
 					/>
 				</div>
 			</div>
