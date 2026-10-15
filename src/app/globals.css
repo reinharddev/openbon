@@ -65,16 +65,18 @@ body {
 	outline-offset: 3px;
 }
 
-input,
-textarea,
-button {
-	font: inherit;
-	color: inherit;
-}
+@layer base {
+	input,
+	textarea,
+	button {
+		font: inherit;
+		color: inherit;
+	}
 
-::placeholder {
-	color: var(--muted);
-	opacity: 0.7;
+	::placeholder {
+		color: var(--muted);
+		opacity: 0.7;
+	}
 }
 
 @layer components {
