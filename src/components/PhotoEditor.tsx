@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { confettiBurst } from "@/lib/fx";
 import FilePicker from "./FilePicker";
 
 type FrameInfo = { id: string; width: number; height: number };
@@ -21,6 +22,8 @@ export default function PhotoEditor({ slug, frames }: Props) {
 	const [frameImages, setFrameImages] = useState<Record<string, HTMLImageElement>>({});
 	const [busy, setBusy] = useState(false);
 	const [fileName, setFileName] = useState("");
+	const [saved, setSaved] = useState(false);
+	const downloadRef = useRef<HTMLButtonElement>(null);
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const pointers = useRef(new Map<number, { x: number; y: number }>());
@@ -81,6 +84,11 @@ export default function PhotoEditor({ slug, frames }: Props) {
 		img.onload = () => {
 			setPhoto(img);
 			setTransform(INITIAL);
+			setSaved(false);
+			requestAnimationFrame(() => {
+				const r = canvasRef.current?.getBoundingClientRect();
+				if (r) confettiBurst(r.left + r.width / 2, r.top + r.height / 2, 38);
+			});
 		};
 		img.src = url;
 	}
@@ -137,6 +145,9 @@ export default function PhotoEditor({ slug, frames }: Props) {
 			link.click();
 			setTimeout(() => URL.revokeObjectURL(url), 10_000);
 			fetch(`/api/campaigns/${slug}/use`, { method: "POST", keepalive: true }).catch(() => {});
+			setSaved(true);
+			const br = downloadRef.current?.getBoundingClientRect();
+			if (br) confettiBurst(br.left + br.width / 2, br.top, 48);
 		} finally {
 			setBusy(false);
 		}
@@ -225,9 +236,28 @@ export default function PhotoEditor({ slug, frames }: Props) {
 					</div>
 				</div>
 
-				<button type="button" onClick={onDownload} disabled={!photo || busy} className="btn btn-lime w-full">
-					3. Download
-				</button>
+				<div className="flex flex-col gap-3">
+					<button
+						ref={downloadRef}
+						type="button"
+						onClick={onDownload}
+						disabled={!photo || busy}
+						className={`btn btn-lime w-full ${photo && !saved ? "ready-nudge" : ""}`}
+					>
+						3. Download
+					</button>
+					{!photo ? (
+						<p className="text-xs text-muted">Pick a photo to unlock the download.</p>
+					) : saved ? (
+						<p key="saved" className="ready-chip chip chip-pink self-start -rotate-1">
+							Saved! Go show it off.
+						</p>
+					) : (
+						<p key="ready" className="ready-chip chip chip-lime self-start -rotate-1">
+							Looking good. Ready to download!
+						</p>
+					)}
+				</div>
 			</div>
 		</div>
 	);

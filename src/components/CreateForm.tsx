@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { confettiBurst } from "@/lib/fx";
 import FilePicker from "./FilePicker";
 
 const MAX_FRAMES = 10;
@@ -48,6 +49,13 @@ export default function CreateForm() {
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
 	const [created, setCreated] = useState<Created | null>(null);
+	const doneRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (!created || !doneRef.current) return;
+		const r = doneRef.current.getBoundingClientRect();
+		confettiBurst(r.left + r.width / 2, r.top + 40, 44);
+	}, [created]);
 
 	function onFiles(list: FileList | null) {
 		const next = Array.from(list ?? []);
@@ -104,8 +112,25 @@ export default function CreateForm() {
 	if (created) {
 		const shareUrl = `${window.location.origin}/c/${created.slug}`;
 		return (
-			<div className="card card-lime flex flex-col gap-5 p-5">
-				<h2 className="text-xl font-extrabold">Boom, it's live.</h2>
+			<div ref={doneRef} className="card card-lime done-pop flex flex-col gap-5 p-5">
+				<div className="flex items-center gap-3">
+					<svg viewBox="0 0 48 48" className="done-check h-12 w-12 shrink-0" aria-hidden="true">
+						<circle cx="24" cy="24" r="21" fill="var(--accent)" stroke="var(--border)" strokeWidth="3" />
+						<path
+							pathLength={1}
+							d="m14 25 7 7 14-16"
+							fill="none"
+							stroke="#0c0c0d"
+							strokeWidth="4.5"
+							strokeLinecap="round"
+							strokeLinejoin="round"
+						/>
+					</svg>
+					<div>
+						<h2 className="text-xl font-extrabold">Boom, it's live.</h2>
+						<p className="text-sm text-muted">Share the link and watch the frames roll in.</p>
+					</div>
+				</div>
 				<div>
 					<p className="mb-1 text-sm font-extrabold">Share link</p>
 					<input readOnly value={shareUrl} onFocus={(e) => e.currentTarget.select()} className={inputClass} />

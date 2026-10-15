@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import ClickSparkles from "@/components/ClickSparkles";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 			</head>
 			<body className="flex min-h-screen flex-col antialiased">
+				<ClickSparkles />
 				<header>
 					<nav className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-4">
 						<Link
