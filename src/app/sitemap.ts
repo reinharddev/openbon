@@ -10,6 +10,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		{ url: `${SITE_URL}/create`, changeFrequency: "yearly", priority: 0.8 },
 		{ url: `${SITE_URL}/explore`, changeFrequency: "daily", priority: 0.7 },
 		{ url: `${SITE_URL}/thanks`, changeFrequency: "monthly", priority: 0.3 },
+		{ url: `${SITE_URL}/terms`, changeFrequency: "yearly", priority: 0.2 },
+		{ url: `${SITE_URL}/privacy`, changeFrequency: "yearly", priority: 0.2 },
+		{ url: `${SITE_URL}/contact`, changeFrequency: "yearly", priority: 0.2 },
 	];
 	try {
 		const campaigns = await listPublicCampaigns(500);

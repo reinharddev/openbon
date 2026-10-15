@@ -120,6 +120,15 @@ export default async function RootLayout({
 							<Link href="/thanks" className="tap hover:text-foreground">
 								{t("foot.thanks")}
 							</Link>
+							<Link href="/terms" className="tap hover:text-foreground">
+								{t("foot.terms")}
+							</Link>
+							<Link href="/privacy" className="tap hover:text-foreground">
+								{t("foot.privacy")}
+							</Link>
+							<Link href="/contact" className="tap hover:text-foreground">
+								{t("foot.contact")}
+							</Link>
 							<Link href="/explore" className="tap hover:text-foreground sm:hidden">
 								{t("nav.explore")}
 							</Link>

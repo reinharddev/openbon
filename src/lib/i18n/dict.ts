@@ -12,6 +12,9 @@ const en = {
 	"nav.motionOff": "Animations off. Click to turn on.",
 	"foot.tagline": "Free, no watermark, no ads. Your photo is processed in your browser and never uploaded.",
 	"foot.thanks": "Special thanks",
+	"foot.terms": "Terms",
+	"foot.privacy": "Privacy",
+	"foot.contact": "Contact",
 	"foot.support": "Support OpenBon",
 	"meta.title": "OpenBon: free photo frames, no watermark",
 	"meta.description":
@@ -199,6 +202,9 @@ const id: Record<DictKey, string> = {
 	"nav.motionOff": "Animasi mati. Klik buat nyalain.",
 	"foot.tagline": "Gratis, tanpa watermark, tanpa iklan. Fotomu diproses di browser dan gak pernah diunggah.",
 	"foot.thanks": "Terima kasih",
+	"foot.terms": "Syarat",
+	"foot.privacy": "Privasi",
+	"foot.contact": "Kontak",
 	"foot.support": "Dukung OpenBon",
 	"meta.title": "OpenBon: bingkai foto gratis, tanpa watermark",
 	"meta.description":

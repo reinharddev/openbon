@@ -10,7 +10,7 @@ export const LIMITS = {
 	hideAfterReports: 5,
 } as const;
 
-const RESERVED_SLUGS = new Set(["create", "explore", "manage", "api", "c", "admin", "about", "static", "_next"]);
+const RESERVED_SLUGS = new Set(["create", "explore", "manage", "api", "c", "admin", "about", "static", "_next", "terms", "privacy", "contact", "thanks"]);
 
 export function isValidSlug(slug: string): boolean {
 	return /^[a-z0-9](?:[a-z0-9-]{1,38})[a-z0-9]$/.test(slug) && !RESERVED_SLUGS.has(slug);
