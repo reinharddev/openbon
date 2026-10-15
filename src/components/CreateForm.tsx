@@ -289,7 +289,7 @@ export default function CreateForm() {
 					onFiles={onFiles}
 				/>
 				<p className="mt-1 text-xs text-muted">{t("create.sizeHint")}</p>
-				<FramePreview files={files} presetRatio={preset.w / preset.h} />
+				<FramePreview files={files} presetW={preset.w} presetH={preset.h} />
 			</div>
 
 			<fieldset>

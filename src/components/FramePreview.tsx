@@ -14,7 +14,9 @@ function gcdRatio(w: number, h: number) {
 }
 
 /** Shows each chosen frame over a sample portrait, so creators see what participants will see. */
-export default function FramePreview({ files, presetRatio }: { files: File[]; presetRatio: number }) {
+export default function FramePreview({ files, presetW, presetH }: { files: File[]; presetW: number; presetH: number }) {
+	const presetRatio = presetW / presetH;
+	const stageMax = presetRatio >= 1 ? 320 : Math.round(300 * presetRatio);
 	const { t } = useI18n();
 	const [items, setItems] = useState<Item[]>([]);
 
@@ -47,16 +49,16 @@ export default function FramePreview({ files, presetRatio }: { files: File[]; pr
 	return (
 		<div className="mt-4">
 			<p className="mb-2 text-sm font-extrabold">{t("create.previewTitle")}</p>
-			<ul className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+			<ul className="flex flex-wrap gap-4">
 				{items.map((it) => {
 					const ratio = it.w / it.h;
 					const off = Math.abs(ratio - presetRatio) / presetRatio > 0.03;
 					const bad = Math.min(it.w, it.h) < 200 || Math.max(it.w, it.h) > 2048;
 					return (
-						<li key={it.url} className="min-w-0">
+						<li key={it.url} className="min-w-0" style={{ width: `min(100%, ${stageMax}px)` }}>
 							<div
-								className="checker relative mx-auto w-full max-w-[220px] overflow-hidden rounded-lg border-2 border-border"
-								style={{ aspectRatio: `${it.w} / ${it.h}` }}
+								className="checker relative w-full overflow-hidden rounded-lg border-2 border-dashed border-border"
+								style={{ aspectRatio: `${presetW} / ${presetH}` }}
 							>
 								<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
 									<rect width="100" height="100" fill="#d4d4d8" />
@@ -64,7 +66,7 @@ export default function FramePreview({ files, presetRatio }: { files: File[]; pr
 									<path d="M18 100a32 32 0 0 1 64 0z" fill="#71717a" />
 								</svg>
 								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={it.url} alt="" className="absolute inset-0 h-full w-full object-fill" />
+								<img src={it.url} alt="" className="absolute inset-0 h-full w-full object-contain" />
 							</div>
 							<p className="mt-2 truncate text-xs font-bold" title={it.name}>
 								{it.w}×{it.h} · {gcdRatio(it.w, it.h)}
