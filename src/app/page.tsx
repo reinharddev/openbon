@@ -49,7 +49,7 @@ const faqs = [
 	{ q: "Is it really free?", a: "Yes. No paid tiers, no watermark, no ads!" },
 	{
 		q: "Where do my face photos go?",
-		a: "Nowhere. Your browser places the photo on the frame and saves it straight to your device. Only the frame file is stored on the server.",
+		a: "Nowhere. Your face photo is never uploaded or stored: your browser places it on the frame and saves the result straight to your device. The only thing kept on the server is the frame file the creator uploaded.",
 	},
 	{
 		q: "What do I need to make a frame?",
