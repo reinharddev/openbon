@@ -669,6 +669,10 @@ body {
 	.reveal:not(.is-in) {
 		opacity: 0;
 	}
+	/* Failsafe: if scripts never hydrate (slow or blocked), show everything. */
+	.reveal-all .reveal:not(.is-in) {
+		opacity: 1;
+	}
 	.reveal.is-in {
 		animation: reveal-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 	}

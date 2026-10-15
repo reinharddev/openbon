@@ -19,6 +19,7 @@ export default function Reveal({ as = "div", delay = 0, className = "", children
 	useEffect(() => {
 		const el = ref.current;
 		if (!el) return;
+		(window as unknown as { __hydrated?: boolean }).__hydrated = true;
 		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
 			el.classList.add("is-in");
 			return;

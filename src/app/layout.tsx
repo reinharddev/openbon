@@ -24,7 +24,7 @@ export default function RootLayout({
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `try{var t=localStorage.getItem("openbon-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}`,
+						__html: `try{var t=localStorage.getItem("openbon-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}setTimeout(function(){if(!window.__hydrated)document.documentElement.classList.add("reveal-all")},4000)`,
 					}}
 				/>
 			</head>

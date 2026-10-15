@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-	/* config options here */
+	// Lets phones on the same Wi-Fi load dev JS (otherwise the page never hydrates).
+	allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.16.*.*", "*.local"],
 };
 
 export default nextConfig;
