@@ -6,32 +6,33 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "Explore campaigns" };
 
+const SHADOWS = ["card-lime", "card-pink", "card-violet"] as const;
+
 export default async function ExplorePage() {
 	const campaigns = await listPublicCampaigns();
 
 	return (
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-col gap-8">
 			<div>
-				<h1 className="text-2xl font-semibold tracking-tight">Public campaigns</h1>
-				<p className="mt-1 text-muted">The latest campaigns created with public visibility.</p>
+				<h1 className="text-3xl font-extrabold tracking-tight">
+					Public <span className="mark">campaigns</span>
+				</h1>
+				<p className="mt-2 text-muted">The latest frames people shared with the world.</p>
 			</div>
 
 			{campaigns.length === 0 ? (
-				<p className="rounded-lg border border-dashed border-border p-8 text-center text-muted">
+				<p className="card card-ink p-8 text-center text-muted">
 					No public campaigns yet.{" "}
-					<Link href="/create" className="text-accent underline">
+					<Link href="/create" className="font-bold text-accent-ink underline">
 						Be the first.
 					</Link>
 				</p>
 			) : (
-				<ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-					{campaigns.map((c) => (
+				<ul className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+					{campaigns.map((c, i) => (
 						<li key={c.id}>
-							<Link
-								href={`/c/${c.slug}`}
-								className="block overflow-hidden rounded-lg border border-border bg-surface hover:border-accent"
-							>
-								<div className="checker aspect-square">
+							<Link href={`/c/${c.slug}`} className={`card ${SHADOWS[i % SHADOWS.length]} block overflow-hidden`}>
+								<div className="checker aspect-square border-b-2 border-border">
 									{c.cover_frame_id ? (
 										// eslint-disable-next-line @next/next/no-img-element
 										<img
@@ -43,7 +44,7 @@ export default async function ExplorePage() {
 									) : null}
 								</div>
 								<div className="p-3">
-									<p className="truncate font-medium">{c.title}</p>
+									<p className="truncate font-extrabold">{c.title}</p>
 									<p className="text-xs text-muted">{c.uses.toLocaleString("en-US")} uses</p>
 								</div>
 							</Link>

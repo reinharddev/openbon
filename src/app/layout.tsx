@@ -22,29 +22,29 @@ export default function RootLayout({
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 			</head>
 			<body className="flex min-h-screen flex-col antialiased">
-				<header className="border-b border-border">
-					<nav className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3">
-						<Link href="/" className="text-lg font-semibold tracking-tight">
+				<header>
+					<nav className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-4">
+						<Link
+							href="/"
+							className="chip chip-lime -rotate-3 text-lg shadow-[3px_3px_0_var(--pink)] hover:rotate-0"
+						>
 							OpenBon
 						</Link>
-						<div className="flex items-center gap-5 text-sm">
+						<div className="flex items-center gap-4 text-sm font-bold">
 							<Link href="/explore" className="text-muted hover:text-foreground">
 								Explore
 							</Link>
-							<Link
-								href="/create"
-								className="rounded-md bg-accent px-3 py-1.5 font-medium text-accent-foreground hover:opacity-90"
-							>
-								Create campaign
+							<Link href="/create" className="btn btn-lime btn-sm">
+								Make a frame
 							</Link>
 						</div>
 					</nav>
 				</header>
 				<main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
-				<footer className="border-t border-border">
-					<div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+				<footer className="border-t-2 border-border">
+					<div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
 						<p>Free, no watermark, no ads. Your photo is processed in your browser and never uploaded.</p>
-						<div className="flex gap-4">
+						<div className="flex gap-4 font-bold">
 							<Link href="/thanks" className="hover:text-foreground">
 								Special thanks
 							</Link>

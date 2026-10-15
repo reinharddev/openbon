@@ -42,7 +42,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 		return (
 			<div className="flex flex-col items-start gap-3">
 				<p>Campaign deleted.</p>
-				<Link href="/" className="rounded-md border border-border px-4 py-2 font-medium hover:bg-surface">
+				<Link href="/" className="btn btn-ghost">
 					Back to home
 				</Link>
 			</div>
@@ -52,20 +52,20 @@ export default function ManagePanel({ slug }: { slug: string }) {
 	return (
 		<div className="flex flex-col gap-5">
 			<div>
-				<Link href={`/c/${slug}`} className="text-accent underline">
+				<Link href={`/c/${slug}`} className="font-bold text-accent-ink underline">
 					/c/{slug}
 				</Link>
 			</div>
 
 			<div>
-				<label htmlFor="key" className="mb-1 block text-sm font-medium">
+				<label htmlFor="key" className="mb-1 block text-sm font-extrabold">
 					Edit key
 				</label>
 				<input
 					id="key"
 					value={key}
 					onChange={(e) => setKey(e.target.value)}
-					className="w-full rounded-md border border-border bg-surface px-3 py-2 font-mono text-sm"
+					className="field font-mono"
 					placeholder="Paste your edit key here"
 				/>
 			</div>
@@ -73,21 +73,21 @@ export default function ManagePanel({ slug }: { slug: string }) {
 			{error ? <p className="text-sm text-danger">{error}</p> : null}
 
 			{confirming ? (
-				<div className="flex flex-col gap-3 rounded-lg border border-danger p-4">
+				<div className="card card-pink flex flex-col gap-3 p-4">
 					<p className="text-sm">Delete this campaign permanently? Its link will stop working.</p>
 					<div className="flex gap-3">
 						<button
 							type="button"
 							onClick={onDelete}
 							disabled={busy}
-							className="rounded-md bg-danger px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+							className="btn btn-danger btn-sm"
 						>
 							{busy ? "Deleting..." : "Yes, delete"}
 						</button>
 						<button
 							type="button"
 							onClick={() => setConfirming(false)}
-							className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:border-accent"
+							className="btn btn-ghost btn-sm"
 						>
 							Cancel
 						</button>
@@ -99,7 +99,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 						type="button"
 						onClick={() => setConfirming(true)}
 						disabled={!key}
-						className="rounded-md bg-danger px-4 py-2 font-medium text-white disabled:opacity-50"
+						className="btn btn-danger"
 					>
 						Delete campaign
 					</button>

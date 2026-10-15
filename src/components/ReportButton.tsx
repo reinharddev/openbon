@@ -28,7 +28,7 @@ export default function ReportButton({ slug }: { slug: string }) {
 
 	if (!open) {
 		return (
-			<button type="button" onClick={() => setOpen(true)} className="text-sm text-muted underline hover:text-foreground">
+			<button type="button" onClick={() => setOpen(true)} className="text-sm font-bold text-muted underline hover:text-foreground">
 				Report this campaign
 			</button>
 		);
@@ -36,7 +36,7 @@ export default function ReportButton({ slug }: { slug: string }) {
 
 	return (
 		<form onSubmit={submit} className="flex max-w-md flex-col gap-2">
-			<label htmlFor="reason" className="text-sm font-medium">
+			<label htmlFor="reason" className="text-sm font-extrabold">
 				Why should this campaign be reviewed?
 			</label>
 			<textarea
@@ -45,17 +45,13 @@ export default function ReportButton({ slug }: { slug: string }) {
 				onChange={(e) => setReason(e.target.value)}
 				maxLength={300}
 				rows={3}
-				className="rounded-md border border-border bg-surface p-2 text-sm"
+				className="field"
 			/>
-			<div className="flex items-center gap-3">
-				<button
-					type="submit"
-					disabled={state === "sending"}
-					className="rounded-md bg-danger px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
-				>
+			<div className="flex flex-wrap items-center gap-3">
+				<button type="submit" disabled={state === "sending"} className="btn btn-danger btn-sm">
 					Submit report
 				</button>
-				<button type="button" onClick={() => setOpen(false)} className="text-sm text-muted underline">
+				<button type="button" onClick={() => setOpen(false)} className="text-sm font-bold text-muted underline">
 					Cancel
 				</button>
 				{state === "error" ? <span className="text-sm text-danger">Failed to send, please try again.</span> : null}

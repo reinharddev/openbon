@@ -23,7 +23,7 @@ export default function FilePicker({ id, accept, multiple, buttonLabel, status, 
 			/>
 			<label
 				htmlFor={id}
-				className="cursor-pointer rounded-md border border-border bg-surface px-3 py-2 text-sm font-medium hover:border-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent"
+				className="btn btn-ghost btn-sm peer-focus-visible:outline-3 peer-focus-visible:outline-offset-3 peer-focus-visible:outline-violet"
 			>
 				{buttonLabel}
 			</label>

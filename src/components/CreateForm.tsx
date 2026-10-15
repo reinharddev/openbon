@@ -9,7 +9,7 @@ const MAX_BYTES = 2 * 1024 * 1024;
 
 type Created = { slug: string; editKey: string };
 
-const inputClass = "w-full resize-none rounded-md border border-border bg-surface px-3 py-2 text-sm";
+const inputClass = "field";
 
 function Choice({
 	checked,
@@ -23,22 +23,16 @@ function Choice({
 	body: string;
 }) {
 	return (
-		<label
-			className={`flex cursor-pointer items-start gap-3 rounded-lg border bg-surface p-3 text-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
-				checked ? "border-accent" : "border-border hover:border-muted"
-			}`}
-		>
+		<label className="choice" data-on={checked}>
 			<input type="radio" name="visibility" checked={checked} onChange={onSelect} className="sr-only" />
 			<span
 				aria-hidden="true"
-				className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${
-					checked ? "border-accent" : "border-muted"
-				}`}
+				className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-border"
 			>
-				{checked ? <span className="h-2 w-2 rounded-full bg-accent" /> : null}
+				{checked ? <span className="h-2 w-2 rounded-full bg-border" /> : null}
 			</span>
 			<span>
-				<span className="block font-medium">{title}</span>
+				<span className="block font-extrabold">{title}</span>
 				<span className="block text-muted">{body}</span>
 			</span>
 		</label>
@@ -110,14 +104,14 @@ export default function CreateForm() {
 	if (created) {
 		const shareUrl = `${window.location.origin}/c/${created.slug}`;
 		return (
-			<div className="flex flex-col gap-5 rounded-lg border border-border bg-surface p-5">
-				<h2 className="text-lg font-semibold">Campaign created</h2>
+			<div className="card card-lime flex flex-col gap-5 p-5">
+				<h2 className="text-xl font-extrabold">Boom, it's live.</h2>
 				<div>
-					<p className="mb-1 text-sm font-medium">Share link</p>
+					<p className="mb-1 text-sm font-extrabold">Share link</p>
 					<input readOnly value={shareUrl} onFocus={(e) => e.currentTarget.select()} className={inputClass} />
 				</div>
 				<div>
-					<p className="mb-1 text-sm font-medium">Edit key (keep it safe)</p>
+					<p className="mb-1 text-sm font-extrabold">Edit key (keep it safe)</p>
 					<input
 						readOnly
 						value={created.editKey}
@@ -131,13 +125,13 @@ export default function CreateForm() {
 				<div className="flex flex-wrap gap-3">
 					<Link
 						href={`/c/${created.slug}`}
-						className="rounded-md bg-accent px-4 py-2 font-medium text-accent-foreground hover:opacity-90"
+						className="btn btn-lime"
 					>
 						Open campaign
 					</Link>
 					<Link
 						href={`/manage/${created.slug}`}
-						className="rounded-md border border-border px-4 py-2 font-medium hover:bg-background"
+						className="btn btn-ghost"
 					>
 						Manage
 					</Link>
@@ -149,7 +143,7 @@ export default function CreateForm() {
 	return (
 		<form onSubmit={onSubmit} className="flex flex-col gap-5">
 			<div>
-				<label htmlFor="title" className="mb-1 block text-sm font-medium">
+				<label htmlFor="title" className="mb-1 block text-sm font-extrabold">
 					Title
 				</label>
 				<input
@@ -164,7 +158,7 @@ export default function CreateForm() {
 			</div>
 
 			<div>
-				<label htmlFor="description" className="mb-1 block text-sm font-medium">
+				<label htmlFor="description" className="mb-1 block text-sm font-extrabold">
 					Description <span className="font-normal text-muted">(optional)</span>
 				</label>
 				<textarea
@@ -178,7 +172,7 @@ export default function CreateForm() {
 			</div>
 
 			<div>
-				<label htmlFor="frames" className="mb-1 block text-sm font-medium">
+				<label htmlFor="frames" className="mb-1 block text-sm font-extrabold">
 					Frames (transparent PNG, up to {MAX_FRAMES} files, 2 MB each)
 				</label>
 				<FilePicker
@@ -193,7 +187,7 @@ export default function CreateForm() {
 			</div>
 
 			<fieldset>
-				<legend className="mb-2 text-sm font-medium">Visibility</legend>
+				<legend className="mb-2 text-sm font-extrabold">Visibility</legend>
 				<div className="grid gap-3 sm:grid-cols-2">
 					<Choice
 						checked={visibility === "unlisted"}
@@ -211,7 +205,7 @@ export default function CreateForm() {
 			</fieldset>
 
 			<div>
-				<label htmlFor="slug" className="mb-1 block text-sm font-medium">
+				<label htmlFor="slug" className="mb-1 block text-sm font-extrabold">
 					Custom link <span className="font-normal text-muted">(optional)</span>
 				</label>
 				<div className="flex items-center gap-2">
@@ -232,9 +226,9 @@ export default function CreateForm() {
 			<button
 				type="submit"
 				disabled={busy}
-				className="rounded-md bg-accent px-4 py-2.5 font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50"
+				className="btn btn-lime w-full"
 			>
-				{busy ? "Saving..." : "Create campaign"}
+				{busy ? "Saving..." : "Make it live"}
 			</button>
 		</form>
 	);

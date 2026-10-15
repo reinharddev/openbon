@@ -1,25 +1,21 @@
-/** Decorative illustration: a photo placeholder wrapped by a campaign frame. */
+/** Decorative sticker: a profile photo placeholder wrapped by a campaign frame. */
 export default function HeroMock() {
 	return (
-		<svg viewBox="0 0 400 400" role="img" aria-label="Illustration of a profile photo inside a campaign frame" className="h-auto w-full">
-			<rect x="8" y="8" width="384" height="384" rx="28" fill="var(--surface)" stroke="var(--border)" strokeWidth="2" />
-			<circle cx="200" cy="178" r="128" fill="var(--border)" />
-			<circle cx="200" cy="148" r="38" fill="var(--muted)" opacity="0.55" />
-			<path d="M120 262c10-44 46-62 80-62s70 18 80 62a128 128 0 0 1-160 0z" fill="var(--muted)" opacity="0.55" />
-			<circle cx="200" cy="178" r="128" fill="none" stroke="var(--accent)" strokeWidth="18" />
-			<circle cx="200" cy="178" r="146" fill="none" stroke="var(--accent)" strokeWidth="2" strokeDasharray="3 9" strokeLinecap="round" />
-			<rect x="104" y="334" width="192" height="34" rx="17" fill="var(--accent)" />
-			<text
-				x="200"
-				y="356"
-				textAnchor="middle"
-				fontSize="15"
-				fontWeight="600"
-				fill="var(--accent-foreground)"
-				fontFamily="ui-sans-serif, system-ui, sans-serif"
-			>
+		<div className="relative mx-auto flex w-full max-w-xs justify-center p-6" aria-hidden="true">
+			<div className="aspect-square w-full rotate-3 rounded-3xl border-2 border-border bg-white p-3 shadow-[8px_8px_0_var(--violet)]">
+				<div className="flex h-full w-full items-center justify-center rounded-2xl border-2 border-black bg-zinc-100">
+					<div className="relative h-3/4 w-3/4 overflow-hidden rounded-full border-[12px] border-accent bg-zinc-300">
+						<div className="absolute left-1/2 top-[18%] h-[28%] w-[28%] -translate-x-1/2 rounded-full bg-zinc-500" />
+						<div className="absolute left-1/2 top-[52%] h-[55%] w-[60%] -translate-x-1/2 rounded-t-full bg-zinc-500" />
+					</div>
+				</div>
+			</div>
+			<span className="chip chip-pink absolute bottom-2 left-0 -rotate-6 shadow-[3px_3px_0_var(--border)]">
 				Join the campaign
-			</text>
-		</svg>
+			</span>
+			<span className="chip chip-violet absolute right-0 top-2 rotate-6 shadow-[3px_3px_0_var(--border)]">
+				0 watermarks
+			</span>
+		</div>
 	);
 }

@@ -144,7 +144,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 
 	return (
 		<div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_320px]">
-			<div className="checker overflow-hidden rounded-lg border border-border">
+			<div className="card card-violet checker overflow-hidden">
 				<canvas
 					ref={canvasRef}
 					width={frame.width}
@@ -160,7 +160,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 
 			<div className="flex flex-col gap-5">
 				<div>
-					<label className="mb-2 block text-sm font-medium" htmlFor="photo">
+					<label className="mb-2 block text-sm font-extrabold" htmlFor="photo">
 						1. Choose a photo
 					</label>
 					<FilePicker
@@ -175,7 +175,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 
 				{frames.length > 1 ? (
 					<div>
-						<p className="mb-2 text-sm font-medium">Choose a frame</p>
+						<p className="mb-2 text-sm font-extrabold">Choose a frame</p>
 						<div className="grid grid-cols-4 gap-2">
 							{frames.map((f) => (
 								<button
@@ -183,8 +183,8 @@ export default function PhotoEditor({ slug, frames }: Props) {
 									type="button"
 									onClick={() => setFrameId(f.id)}
 									aria-pressed={f.id === frame.id}
-									className={`checker overflow-hidden rounded-md border-2 ${
-										f.id === frame.id ? "border-accent" : "border-border"
+									className={`checker overflow-hidden rounded-md border-2 border-border ${
+										f.id === frame.id ? "shadow-[3px_3px_0_var(--accent)]" : "opacity-70"
 									}`}
 								>
 									{/* eslint-disable-next-line @next/next/no-img-element */}
@@ -196,7 +196,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 				) : null}
 
 				<div>
-					<label className="mb-2 block text-sm font-medium" htmlFor="zoom">
+					<label className="mb-2 block text-sm font-extrabold" htmlFor="zoom">
 						2. Adjust position
 					</label>
 					<input
@@ -228,7 +228,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						type="button"
 						onClick={onDownload}
 						disabled={!photo || busy}
-						className="w-full rounded-md bg-accent px-4 py-2.5 font-medium text-accent-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+						className="btn btn-lime w-full"
 					>
 						3. Download
 					</button>

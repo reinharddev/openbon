@@ -29,9 +29,11 @@ export default async function CampaignPage({ params }: Props) {
 	return (
 		<div className="flex flex-col gap-6">
 			<div>
-				<h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{campaign.title}</h1>
+				<h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{campaign.title}</h1>
 				{campaign.description ? <p className="mt-2 max-w-2xl text-muted">{campaign.description}</p> : null}
-				<p className="mt-2 text-sm text-muted">Used {campaign.uses.toLocaleString("en-US")} times</p>
+				<p className="mt-3">
+					<span className="chip chip-lime -rotate-1">Used {campaign.uses.toLocaleString("en-US")} times</span>
+				</p>
 			</div>
 
 			<PhotoEditor
@@ -39,7 +41,7 @@ export default async function CampaignPage({ params }: Props) {
 				frames={frames.map((f) => ({ id: f.id, width: f.width, height: f.height }))}
 			/>
 
-			<div className="border-t border-border pt-4">
+			<div className="border-t-2 border-border pt-4">
 				<ReportButton slug={campaign.slug} />
 			</div>
 		</div>
