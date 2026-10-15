@@ -1408,3 +1408,11 @@ li:nth-child(even) > .reveal > .faq[open] {
 :root[data-motion="off"] .motion-btn .sp {
 	opacity: 0.45;
 }
+
+/* The sparkle layer rides on top of the circular reveal; skip the default fade for it. */
+::view-transition-group(theme-sparkles),
+::view-transition-new(theme-sparkles),
+::view-transition-old(theme-sparkles) {
+	animation: none;
+	mix-blend-mode: normal;
+}

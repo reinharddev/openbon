@@ -16,6 +16,59 @@ function apply(theme: Theme) {
 	document.documentElement.dataset.theme = theme;
 }
 
+const SPARK_COLORS = ["#c7f542", "#ff7ab8", "#a78bfa", "#ffffff"];
+const SPARK_CLIPS = [
+	"polygon(50% 0%, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%)",
+	"polygon(50% 0, 100% 50%, 50% 100%, 0 50%)",
+	"polygon(35% 0, 65% 0, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0 65%, 0 35%, 35% 35%)",
+];
+
+/** Throws small twinkling shapes along the leading edge of the expanding circle. */
+function edgeSparkles(layer: HTMLElement | null, anim: Animation, cx: number, cy: number, maxR: number) {
+	if (!layer) return;
+	let alive = 0;
+	const tick = () => {
+		if (!layer.isConnected) return;
+		const progress = Number(anim.effect?.getComputedTiming().progress ?? 1);
+		const r = progress * maxR;
+		const ended = anim.playState === "finished" || progress >= 1;
+		if (!ended && r > 4) {
+			for (let i = 0; i < 6 && alive < 140; i++) {
+				const a = Math.random() * Math.PI * 2;
+				const rr = r + (Math.random() * 10 - 5);
+				const x = cx + Math.cos(a) * rr;
+				const y = cy + Math.sin(a) * rr;
+				if (x < -20 || y < -20 || x > innerWidth + 20 || y > innerHeight + 20) continue;
+				const size = 5 + Math.random() * 9;
+				const el = document.createElement("span");
+				el.style.cssText = `position:absolute;left:${x - size / 2}px;top:${y - size / 2}px;width:${size}px;height:${size}px;background:${
+					SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)]
+				};clip-path:${SPARK_CLIPS[Math.floor(Math.random() * SPARK_CLIPS.length)]};`;
+				layer.appendChild(el);
+				alive += 1;
+				const drift = 6 + Math.random() * 22;
+				const spin = (Math.random() * 2 - 1) * 140;
+				const fx = Math.cos(a) * drift;
+				const fy = Math.sin(a) * drift;
+				const a2 = el.animate(
+					[
+						{ transform: "translate(0,0) scale(0.3) rotate(0deg)", opacity: 0 },
+						{ transform: `translate(${fx * 0.4}px,${fy * 0.4}px) scale(1.1) rotate(${spin * 0.4}deg)`, opacity: 1, offset: 0.3 },
+						{ transform: `translate(${fx}px,${fy}px) scale(0) rotate(${spin}deg)`, opacity: 0 },
+					],
+					{ duration: 420 + Math.random() * 380, easing: "ease-out", fill: "forwards" },
+				);
+				a2.onfinish = () => {
+					el.remove();
+					alive -= 1;
+				};
+			}
+		}
+		if (!ended) requestAnimationFrame(tick);
+	};
+	requestAnimationFrame(tick);
+}
+
 /** Sun and moon morph into each other; the page colors sweep out from the button in a circle. */
 export default function ThemeToggle() {
 	const { t } = useI18n();
@@ -39,7 +92,7 @@ export default function ThemeToggle() {
 
 		const reduced = motionOff();
 		const root = document.documentElement;
-		type VT = { ready: Promise<void> };
+		type VT = { ready: Promise<void>; finished: Promise<void> };
 		const start = (document as Document & { startViewTransition?: (cb: () => void) => VT }).startViewTransition;
 
 		if (reduced) {
@@ -52,13 +105,32 @@ export default function ThemeToggle() {
 			const x = r.left + r.width / 2;
 			const y = r.top + r.height / 2;
 			const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-			const vt = start.call(document, () => flushSync(() => apply(next)));
-			vt.ready.then(() => {
-				root.animate(
-					{ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-					{ duration: 650, easing: "cubic-bezier(0.5, 0, 0.2, 1)", pseudoElement: "::view-transition-new(root)" },
-				);
-			}).catch(() => {});
+			let layer: HTMLDivElement | null = null;
+			const vt = start.call(document, () =>
+				flushSync(() => {
+					apply(next);
+					// A named layer is captured as its own live group, so it paints above the reveal.
+					layer = document.createElement("div");
+					layer.setAttribute("aria-hidden", "true");
+					layer.style.cssText =
+						"position:fixed;inset:0;pointer-events:none;overflow:hidden;view-transition-name:theme-sparkles;";
+					document.body.appendChild(layer);
+				}),
+			);
+			vt.ready
+				.then(() => {
+					const anim = root.animate(
+						{ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+						{ duration: 650, easing: "cubic-bezier(0.5, 0, 0.2, 1)", pseudoElement: "::view-transition-new(root)" },
+					);
+					edgeSparkles(layer, anim, x, y, radius);
+				})
+				.catch(() => {});
+			vt.finished
+				.catch(() => {})
+				.finally(() => {
+					(layer as HTMLDivElement | null)?.remove();
+				});
 			return;
 		}
 
