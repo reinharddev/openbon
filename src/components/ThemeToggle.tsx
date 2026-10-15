@@ -27,19 +27,27 @@ const SPARK_CLIPS = [
 function edgeSparkles(layer: HTMLElement | null, anim: Animation, cx: number, cy: number, maxR: number) {
 	if (!layer) return;
 	let alive = 0;
+	// A glowing rim that rides exactly on the boundary between the old and new colors.
+	const ring = document.createElement("div");
+	ring.style.cssText = `position:absolute;left:${cx}px;top:${cy}px;width:0;height:0;border-radius:50%;transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,0.9);box-shadow:0 0 14px 3px rgba(199,245,66,0.85),0 0 34px 8px rgba(167,139,250,0.55),inset 0 0 14px 2px rgba(255,122,184,0.6);box-sizing:border-box;`;
+	layer.appendChild(ring);
 	const tick = () => {
 		if (!layer.isConnected) return;
 		const progress = Number(anim.effect?.getComputedTiming().progress ?? 1);
 		const r = progress * maxR;
 		const ended = anim.playState === "finished" || progress >= 1;
+		ring.style.width = ring.style.height = `${Math.max(0, r * 2)}px`;
+		if (ended) {
+			ring.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: "forwards" });
+		}
 		if (!ended && r > 4) {
-			for (let i = 0; i < 6 && alive < 140; i++) {
+			for (let i = 0; i < 12 && alive < 240; i++) {
 				const a = Math.random() * Math.PI * 2;
-				const rr = r + (Math.random() * 10 - 5);
+				const rr = r + (Math.random() * 28 - 14);
 				const x = cx + Math.cos(a) * rr;
 				const y = cy + Math.sin(a) * rr;
 				if (x < -20 || y < -20 || x > innerWidth + 20 || y > innerHeight + 20) continue;
-				const size = 5 + Math.random() * 9;
+				const size = 6 + Math.random() * 12;
 				const el = document.createElement("span");
 				el.style.cssText = `position:absolute;left:${x - size / 2}px;top:${y - size / 2}px;width:${size}px;height:${size}px;background:${
 					SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)]
