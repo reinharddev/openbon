@@ -1,13 +1,55 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import ClickSparkles from "@/components/ClickSparkles";
 import ThemeToggle from "@/components/ThemeToggle";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-	title: { default: "OpenBon", template: "%s · OpenBon" },
-	description:
-		"Create and use photo frames for campaigns, events, and communities. No watermark, no ads, no tracking. Open source.",
+	metadataBase: new URL(SITE_URL),
+	title: { default: "OpenBon: free photo frames, no watermark", template: "%s · OpenBon" },
+	description: SITE_DESCRIPTION,
+	applicationName: SITE_NAME,
+	keywords: [
+		"photo frame",
+		"profile picture frame",
+		"twibbon alternative",
+		"campaign frame",
+		"no watermark",
+		"open source",
+		"free",
+	],
+	authors: [{ name: "OpenBon" }],
+	alternates: { canonical: "/" },
+	icons: {
+		icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+		apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+	},
+	openGraph: {
+		type: "website",
+		siteName: SITE_NAME,
+		title: "OpenBon: free photo frames, no watermark",
+		description: SITE_DESCRIPTION,
+		url: "/",
+		locale: "en_US",
+		images: [{ url: "/og.png", width: 1200, height: 630, alt: "OpenBon: frame your face, for free." }],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "OpenBon: free photo frames, no watermark",
+		description: SITE_DESCRIPTION,
+		images: ["/og.png"],
+	},
+	robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+	themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "#f4f4f5" },
+		{ media: "(prefers-color-scheme: dark)", color: "#0e0e10" },
+	],
 };
 
 const donateUrl = process.env.NEXT_PUBLIC_DONATE_URL;
@@ -21,7 +63,6 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
-				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 				<script
 					dangerouslySetInnerHTML={{
 						__html: `try{var t=localStorage.getItem("openbon-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}setTimeout(function(){if(!window.__hydrated)document.documentElement.classList.add("reveal-all")},4000)`,

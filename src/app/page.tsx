@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import AnimatedIcon, { type AnimatedIconName } from "@/components/AnimatedIcon";
 import Icon from "@/components/Icon";
 import StepBadge from "@/components/StepBadge";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
 const features: { icon: AnimatedIconName; title: string; body: string; shadow: string; tilt: string }[] = [
 	{ icon: "image", title: "No watermark", body: "Clean downloads. Frames and photos come out exactly as you made them.", shadow: "card-lime", tilt: "-rotate-1" },
@@ -62,9 +63,39 @@ const faqs = [
 	},
 ];
 
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "WebApplication",
+			name: "OpenBon",
+			url: SITE_URL,
+			description: SITE_DESCRIPTION,
+			applicationCategory: "MultimediaApplication",
+			operatingSystem: "Any",
+			browserRequirements: "Requires JavaScript",
+			isAccessibleForFree: true,
+			license: "https://www.gnu.org/licenses/agpl-3.0.html",
+			offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+		},
+		{
+			"@type": "FAQPage",
+			mainEntity: faqs.map((f) => ({
+				"@type": "Question",
+				name: f.q,
+				acceptedAnswer: { "@type": "Answer", text: f.a },
+			})),
+		},
+	],
+};
+
 export default function Home() {
 	return (
 		<div className="flex flex-col gap-24 pb-8">
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+			/>
 			<section className="grid items-center gap-10 pt-2 md:grid-cols-2">
 				<div className="flex flex-col items-start gap-6">
 					<span className="chip chip-violet hero-in -rotate-2" style={{ "--d": "0s" } as React.CSSProperties}>

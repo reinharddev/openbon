@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import CreateForm from "@/components/CreateForm";
 
-export const metadata: Metadata = { title: "Make a frame" };
+export const metadata: Metadata = {
+	title: "Make a frame",
+	description: "Upload a transparent PNG, get one share link. No account, no watermark, up to 10 frames per campaign.",
+	alternates: { canonical: "/create" },
+};
 
 export default function CreatePage() {
 	return (

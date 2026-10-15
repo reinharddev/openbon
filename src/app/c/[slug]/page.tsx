@@ -11,11 +11,24 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
 	const campaign = await getCampaignBySlug(slug);
-	if (!campaign) return { title: "Not found" };
+	if (!campaign) return { title: "Not found", robots: { index: false } };
+	const description = campaign.description || `Add your photo to the "${campaign.title}" frame. Free, no watermark.`;
+	const frames = await getFrames(campaign.id);
+	const cover = frames[0] ? `/api/frames/${frames[0].id}` : "/og.png";
+	const listed = campaign.visibility === "public";
 	return {
 		title: campaign.title,
-		description: campaign.description || `Add your photo to the "${campaign.title}" frame.`,
-		robots: campaign.visibility === "unlisted" ? { index: false } : undefined,
+		description,
+		alternates: { canonical: `/c/${campaign.slug}` },
+		robots: listed ? { index: true, follow: true } : { index: false, follow: false },
+		openGraph: {
+			type: "website",
+			title: campaign.title,
+			description,
+			url: `/c/${campaign.slug}`,
+			images: [{ url: cover, alt: campaign.title }],
+		},
+		twitter: { card: "summary_large_image", title: campaign.title, description, images: [cover] },
 	};
 }
 

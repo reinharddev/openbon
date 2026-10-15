@@ -36,6 +36,7 @@ Optional variables (set at build time, e.g. in `.env.local` or the dashboard):
 | Variable | Purpose |
 |---|---|
 | `NEXT_PUBLIC_DONATE_URL` | Donation link (Ko-fi, GitHub Sponsors, Saweria, ...). The button is hidden when empty. |
+| `NEXT_PUBLIC_SITE_URL` | Public origin, e.g. `https://openbon.my.id`. Used for canonical URLs, sitemap, and social previews. Set this in production. |
 | `NEXT_PUBLIC_REPO_URL` | Repository link shown in the footer. |
 
 ## Moderation

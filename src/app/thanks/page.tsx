@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Sticker from "@/components/Sticker";
 import { supporters } from "@/content/supporters";
 
-export const metadata: Metadata = { title: "Special thanks" };
+export const metadata: Metadata = {
+	title: "Special thanks",
+	description: "The people who help keep OpenBon free, with no ads and no watermark.",
+	alternates: { canonical: "/thanks" },
+};
 
 const donateUrl = process.env.NEXT_PUBLIC_DONATE_URL;
 const SHADOWS = ["card-lime", "card-pink", "card-violet"] as const;

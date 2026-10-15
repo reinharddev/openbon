@@ -6,7 +6,11 @@ import { listPublicCampaigns } from "@/lib/campaigns";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = { title: "Explore campaigns" };
+export const metadata: Metadata = {
+	title: "Explore campaigns",
+	description: "Browse the latest public photo frames shared on OpenBon and add your photo in seconds.",
+	alternates: { canonical: "/explore" },
+};
 
 const SHADOWS = ["card-lime", "card-pink", "card-violet"] as const;
 
