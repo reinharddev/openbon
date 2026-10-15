@@ -132,7 +132,6 @@ export default function PhotoEditor({ slug, frames }: Props) {
 		pointers.current.delete(e.pointerId);
 		if (pointers.current.size < 2) pinchStart.current = null;
 		if (pointers.current.size === 0) setDragging(false);
-		if (pointers.current.size === 0) setDragging(false);
 	}
 
 	async function onDownload() {
