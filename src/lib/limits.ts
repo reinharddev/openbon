@@ -5,6 +5,7 @@ export const LIMITS = {
 	maxFrameSize: 2048,
 	maxTitle: 80,
 	maxDescription: 300,
+	maxCaption: 1000,
 	maxReason: 300,
 	hideAfterReports: 5,
 } as const;

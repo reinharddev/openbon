@@ -11,12 +11,14 @@ export async function POST(request: Request) {
 	const form = await request.formData();
 	const title = String(form.get("title") ?? "").trim();
 	const description = String(form.get("description") ?? "").trim();
+	const caption = String(form.get("caption") ?? "").trim();
 	const visibility = form.get("visibility") === "public" ? "public" : "unlisted";
 	const requestedSlug = String(form.get("slug") ?? "").trim().toLowerCase();
 	const files = form.getAll("frames").filter((f): f is File => typeof f !== "string");
 
 	if (!title || title.length > LIMITS.maxTitle) return fail(`Title is required (max ${LIMITS.maxTitle} characters).`);
 	if (description.length > LIMITS.maxDescription) return fail(`Description must be at most ${LIMITS.maxDescription} characters.`);
+	if (caption.length > LIMITS.maxCaption) return fail(`Caption must be at most ${LIMITS.maxCaption} characters.`);
 	if (files.length < 1 || files.length > LIMITS.maxFrames) return fail(`Upload 1 to ${LIMITS.maxFrames} frames.`);
 	if (requestedSlug && !isValidSlug(requestedSlug)) {
 		return fail("The link may only contain lowercase letters, numbers, and hyphens (3-40 characters).");
@@ -63,8 +65,8 @@ export async function POST(request: Request) {
 		);
 		await DB.batch([
 			DB.prepare(
-				"INSERT INTO campaigns (id, slug, title, description, visibility, edit_key_hash, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-			).bind(campaignId, slug, title, description, visibility, editKeyHash, Date.now()),
+				"INSERT INTO campaigns (id, slug, title, description, caption, visibility, edit_key_hash, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+			).bind(campaignId, slug, title, description, caption, visibility, editKeyHash, Date.now()),
 			...frameRows.map((f) =>
 				DB.prepare(
 					"INSERT INTO frames (id, campaign_id, r2_key, width, height, position) VALUES (?, ?, ?, ?, ?, ?)",

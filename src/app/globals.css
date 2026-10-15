@@ -1120,3 +1120,48 @@ body {
 		transform: translateY(0);
 	}
 }
+
+/* Caption template + fill-in dialog. */
+.cap-ph {
+	display: inline;
+	padding: 0 0.3em;
+	border: 2px solid var(--border);
+	border-radius: 0.5rem;
+	background: var(--pink);
+	color: #0c0c0d;
+	font-weight: 800;
+	box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
+}
+.cap-ph[data-filled="true"] {
+	background: var(--accent);
+}
+.modal {
+	width: min(32rem, calc(100vw - 2rem));
+	max-height: calc(100dvh - 2rem);
+	margin: auto;
+	padding: 0;
+	border: 2px solid var(--border);
+	border-radius: 1rem;
+	background: var(--surface);
+	color: var(--foreground);
+	box-shadow: 8px 8px 0 var(--violet);
+	overflow: auto;
+}
+.modal::backdrop {
+	background: rgb(0 0 0 / 0.6);
+	backdrop-filter: blur(3px);
+}
+@media (prefers-reduced-motion: no-preference) {
+	.modal[open] {
+		animation: done-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.modal[open]::backdrop {
+		animation: modal-fade 0.25s ease-out both;
+	}
+}
+@keyframes modal-fade {
+	from {
+		opacity: 0;
+	}
+}

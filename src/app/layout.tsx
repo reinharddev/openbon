@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import ClickSparkles from "@/components/ClickSparkles";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
@@ -62,14 +63,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head>
-				<script
+			<body className="flex min-h-screen flex-col antialiased">
+				<Script id="theme-init" strategy="beforeInteractive"
 					dangerouslySetInnerHTML={{
 						__html: `try{var t=localStorage.getItem("openbon-theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}setTimeout(function(){if(!window.__hydrated)document.documentElement.classList.add("reveal-all")},4000)`,
 					}}
 				/>
-			</head>
-			<body className="flex min-h-screen flex-col antialiased">
 				<noscript>
 					<style>{".reveal{opacity:1 !important}"}</style>
 				</noscript>

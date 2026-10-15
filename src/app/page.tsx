@@ -44,7 +44,7 @@ const steps = [
 ];
 
 const faqs = [
-	{ q: "Is it really free?", a: "Yes. No paid tiers, no watermark, no ads. Hosting is covered by voluntary donations." },
+	{ q: "Is it really free?", a: "Yes. No paid tiers, no watermark, no ads!" },
 	{
 		q: "Where do my photos go?",
 		a: "Nowhere. Your browser places the photo on the frame and saves it straight to your device. Only the frame file is stored on the server.",

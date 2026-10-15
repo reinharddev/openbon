@@ -44,6 +44,7 @@ function Choice({
 export default function CreateForm() {
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
+	const [caption, setCaption] = useState("");
 	const [visibility, setVisibility] = useState<"unlisted" | "public">("unlisted");
 	const [slug, setSlug] = useState("");
 	const [files, setFiles] = useState<File[]>([]);
@@ -88,6 +89,7 @@ export default function CreateForm() {
 		const body = new FormData();
 		body.set("title", title);
 		body.set("description", description);
+		body.set("caption", caption);
 		body.set("visibility", visibility);
 		if (slug.trim()) body.set("slug", slug.trim().toLowerCase());
 		for (const f of files) body.append("frames", f);
@@ -196,6 +198,24 @@ export default function CreateForm() {
 					onChange={(e) => setDescription(e.target.value)}
 					className={inputClass}
 				/>
+			</div>
+
+			<div>
+				<label htmlFor="caption" className="mb-1 block text-sm font-extrabold">
+					Caption template <span className="font-normal text-muted">(optional)</span>
+				</label>
+				<textarea
+					id="caption"
+					maxLength={1000}
+					rows={4}
+					value={caption}
+					onChange={(e) => setCaption(e.target.value)}
+					className={inputClass}
+					placeholder={"Hi, I'm [Name] from [Class]! Proud to join #CleanupDay."}
+				/>
+				<p className="mt-1 text-xs text-muted">
+					Wrap parts people should change in [square brackets]. They can fill them in and copy the finished caption.
+				</p>
 			</div>
 
 			<div>

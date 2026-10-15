@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import CaptionBox from "@/components/CaptionBox";
 import PhotoEditor from "@/components/PhotoEditor";
 import ReportButton from "@/components/ReportButton";
 import { getCampaignBySlug, getFrames } from "@/lib/campaigns";
@@ -53,6 +54,8 @@ export default async function CampaignPage({ params }: Props) {
 				slug={campaign.slug}
 				frames={frames.map((f) => ({ id: f.id, width: f.width, height: f.height }))}
 			/>
+
+			{campaign.caption ? <CaptionBox template={campaign.caption} /> : null}
 
 			<div className="border-t-2 border-border pt-4">
 				<ReportButton slug={campaign.slug} />

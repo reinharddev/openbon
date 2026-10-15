@@ -5,6 +5,7 @@ export type Campaign = {
 	slug: string;
 	title: string;
 	description: string;
+	caption: string;
 	visibility: "public" | "unlisted";
 	uses: number;
 	created_at: number;
@@ -22,7 +23,7 @@ export type CampaignCard = Campaign & { cover_frame_id: string | null };
 export async function getCampaignBySlug(slug: string): Promise<Campaign | null> {
 	const { DB } = getEnv();
 	return DB.prepare(
-		"SELECT id, slug, title, description, visibility, uses, created_at FROM campaigns WHERE slug = ? AND hidden = 0",
+		"SELECT id, slug, title, description, caption, visibility, uses, created_at FROM campaigns WHERE slug = ? AND hidden = 0",
 	)
 		.bind(slug)
 		.first<Campaign>();
@@ -41,7 +42,7 @@ export async function getFrames(campaignId: string): Promise<Frame[]> {
 export async function listPublicCampaigns(limit = 48): Promise<CampaignCard[]> {
 	const { DB } = getEnv();
 	const { results } = await DB.prepare(
-		`SELECT c.id, c.slug, c.title, c.description, c.visibility, c.uses, c.created_at,
+		`SELECT c.id, c.slug, c.title, c.description, c.caption, c.visibility, c.uses, c.created_at,
 			(SELECT f.id FROM frames f WHERE f.campaign_id = c.id ORDER BY f.position LIMIT 1) AS cover_frame_id
 		FROM campaigns c
 		WHERE c.visibility = 'public' AND c.hidden = 0
