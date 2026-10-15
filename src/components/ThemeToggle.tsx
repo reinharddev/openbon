@@ -41,13 +41,13 @@ function edgeSparkles(layer: HTMLElement | null, anim: Animation, cx: number, cy
 			ring.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: "forwards" });
 		}
 		if (!ended && r > 4) {
-			for (let i = 0; i < 12 && alive < 240; i++) {
+			for (let i = 0; i < 3 && alive < 70; i++) {
 				const a = Math.random() * Math.PI * 2;
-				const rr = r + (Math.random() * 28 - 14);
+				const rr = r + (Math.random() * 20 - 10);
 				const x = cx + Math.cos(a) * rr;
 				const y = cy + Math.sin(a) * rr;
 				if (x < -20 || y < -20 || x > innerWidth + 20 || y > innerHeight + 20) continue;
-				const size = 6 + Math.random() * 12;
+				const size = 5 + Math.random() * 8;
 				const el = document.createElement("span");
 				el.style.cssText = `position:absolute;left:${x - size / 2}px;top:${y - size / 2}px;width:${size}px;height:${size}px;background:${
 					SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)]
