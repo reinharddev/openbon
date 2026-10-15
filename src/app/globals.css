@@ -830,3 +830,49 @@ body {
 		transform: translateY(0) scale(1) rotate(0);
 	}
 }
+
+/* Entrance for the app shell: logo, nav, page content, footer. Uses individual transform properties so hover transforms keep working. */
+@media (prefers-reduced-motion: no-preference) {
+	.nav-in {
+		animation: nav-drop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.nav-links > * {
+		animation: nav-drop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.nav-links > *:nth-child(1) {
+		animation-delay: 0.12s;
+	}
+	.nav-links > *:nth-child(2) {
+		animation-delay: 0.22s;
+	}
+	.page-in {
+		animation: page-in 0.5s 0.05s ease-out both;
+	}
+	.foot-in {
+		animation: page-in 0.6s 0.4s ease-out both;
+	}
+}
+
+@keyframes nav-drop {
+	from {
+		opacity: 0;
+		translate: 0 -16px;
+		scale: 0.85;
+	}
+	to {
+		opacity: 1;
+		translate: 0 0;
+		scale: 1;
+	}
+}
+
+@keyframes page-in {
+	from {
+		opacity: 0;
+		translate: 0 10px;
+	}
+	to {
+		opacity: 1;
+		translate: 0 0;
+	}
+}

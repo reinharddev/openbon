@@ -31,11 +31,11 @@ export default function RootLayout({
 					<nav className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-4">
 						<Link
 							href="/"
-							className="chip chip-lime -rotate-3 text-lg shadow-[3px_3px_0_var(--pink)] hover:rotate-0"
+							className="chip chip-lime nav-in -rotate-3 text-lg shadow-[3px_3px_0_var(--pink)] hover:rotate-0"
 						>
 							OpenBon
 						</Link>
-						<div className="flex items-center gap-4 text-sm font-bold">
+						<div className="nav-links flex items-center gap-4 text-sm font-bold">
 							<Link href="/explore" className="tap text-muted hover:text-foreground">
 								Explore
 							</Link>
@@ -45,8 +45,8 @@ export default function RootLayout({
 						</div>
 					</nav>
 				</header>
-				<main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
-				<footer className="border-t-2 border-border">
+				<main className="page-in mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
+				<footer className="foot-in border-t-2 border-border">
 					<div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-6 text-sm text-muted md:flex-row md:items-center md:justify-between">
 						<p className="md:max-w-md">Free, no watermark, no ads. Your photo is processed in your browser and never uploaded.</p>
 						<div className="flex flex-wrap gap-x-5 whitespace-nowrap font-bold">
