@@ -37,7 +37,7 @@
 		{
 			"binding": "DB",
 			"database_name": "openbon",
-			"database_id": "00000000-0000-0000-0000-000000000000",
+			"database_id": "d3ac9b68-fd5a-4f39-adc8-fb56c20dc254",
 			"migrations_dir": "migrations"
 		}
 	],
