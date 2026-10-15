@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import ClickSparkles from "@/components/ClickSparkles";
+import GithubLink from "@/components/GithubLink";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -82,6 +83,7 @@ export default function RootLayout({
 							OpenBon
 						</Link>
 						<div className="nav-links flex items-center gap-4 text-sm font-bold">
+							<GithubLink className="hidden md:inline-flex" />
 							<ThemeToggle />
 							<Link href="/explore" className="tap text-muted hover:text-foreground">
 								Explore
@@ -105,11 +107,7 @@ export default function RootLayout({
 									Support OpenBon
 								</a>
 							) : null}
-							{repoUrl ? (
-								<a href={repoUrl} target="_blank" rel="noopener noreferrer" className="tap hover:text-foreground">
-									GitHub
-								</a>
-							) : null}
+							<GithubLink className="gh-pill-foot" />
 						</div>
 					</div>
 				</footer>

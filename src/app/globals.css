@@ -1261,3 +1261,37 @@ li:nth-child(even) > .reveal > .faq[open] {
 		translate: 0 -8px;
 	}
 }
+
+/* GitHub link with star count. */
+.gh-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	height: 2.5rem;
+	padding: 0 0.7rem;
+	border: 2px solid var(--border);
+	border-radius: 0.75rem;
+	background: var(--surface);
+	color: var(--foreground);
+	font-size: 0.85rem;
+	font-weight: 800;
+	box-shadow: 3px 3px 0 var(--accent);
+	transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+}
+.gh-pill:hover {
+	transform: translate(-1px, -1px) rotate(2deg);
+	box-shadow: 4px 4px 0 var(--accent);
+}
+.gh-stars {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.1rem 0.45rem;
+	border-radius: 999px;
+	background: var(--accent);
+	color: #0c0c0d;
+	font-size: 0.78rem;
+}
+.gh-pill-foot {
+	height: 2.25rem;
+}
