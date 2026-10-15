@@ -43,6 +43,8 @@ const steps = [
 	{ title: "Add a photo", body: "Pick a photo, move it around, download. That's it." },
 ];
 
+const repoUrl = process.env.NEXT_PUBLIC_REPO_URL;
+
 const faqs = [
 	{ q: "Is it really free?", a: "Yes. No paid tiers, no watermark, no ads!" },
 	{
@@ -223,25 +225,50 @@ export default function Home() {
 				</div>
 			</Reveal>
 
-			<section aria-labelledby="faq" className="grid gap-8 md:grid-cols-[1fr_2fr]">
-				<Reveal>
-					<h2 id="faq" className="text-3xl font-extrabold tracking-tight">
-						Questions
-					</h2>
-				</Reveal>
-				<ul className="flex flex-col gap-4">
-					{faqs.map((item, i) => (
-						<li key={item.q}>
-							<Reveal delay={i * 70}>
-								<div className={`card p-5 ${i % 2 === 0 ? "card-lime" : "card-pink"}`}>
-									<h3 className="font-extrabold">{item.q}</h3>
-									<p className="mt-1 text-sm text-muted">{item.a}</p>
-								</div>
-							</Reveal>
-						</li>
-					))}
-				</ul>
-			</section>
+			<section aria-labelledby="faq" className="grid gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] md:items-start">
+					<Reveal className="md:sticky md:top-8">
+						<span className="chip chip-pink -rotate-2">FAQ</span>
+						<h2 id="faq" className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+							Got <span className="mark">questions?</span>
+						</h2>
+						<p className="mt-3 max-w-sm text-muted">Quick answers to the usual stuff. Tap a question to open it.</p>
+						{repoUrl ? (
+							<a
+								href={`${repoUrl}/issues`}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="card card-violet tap mt-6 block max-w-sm -rotate-1 p-4 text-sm"
+							>
+								<span className="block font-extrabold">Still stuck?</span>
+								<span className="text-muted">Ask on GitHub and we'll help.</span>
+							</a>
+						) : null}
+					</Reveal>
+					<ul className="flex flex-col gap-4">
+						{faqs.map((item, i) => (
+							<li key={item.q}>
+								<Reveal delay={i * 70}>
+									<details name="faq" className="faq" open={i === 0}>
+										<summary className="faq-q">
+											<span className="faq-num" aria-hidden="true">
+												{i + 1}
+											</span>
+											<span className="faq-text">{item.q}</span>
+											<span className="faq-plus" aria-hidden="true">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round">
+													<path d="M12 5v14M5 12h14" />
+												</svg>
+											</span>
+										</summary>
+										<div className="faq-a">
+											<p>{item.a}</p>
+										</div>
+									</details>
+								</Reveal>
+							</li>
+						))}
+					</ul>
+				</section>
 
 			<Reveal as="section">
 				<div className="card card-pink flex flex-col items-start gap-4 p-8 sm:flex-row sm:items-center sm:justify-between">
