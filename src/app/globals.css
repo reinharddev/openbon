@@ -890,17 +890,31 @@ body {
 	.nav-in {
 		animation: nav-drop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 	}
-	.nav-links > * {
+	.nav-links > *,
+	.nav-links .gh-pill,
+	.nav-links .lang-btn,
+	.nav-links .motion-btn,
+	.nav-links .theme-btn {
 		animation: nav-drop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 	}
-	.nav-links > *:nth-child(1) {
-		animation-delay: 0.12s;
+	/* Wrapper spans use display: contents, so each control gets its own stagger by class. */
+	.nav-links .gh-pill {
+		animation-delay: 0.1s;
 	}
-	.nav-links > *:nth-child(2) {
-		animation-delay: 0.22s;
+	.nav-links .lang-btn {
+		animation-delay: 0.18s;
 	}
-	.nav-links > *:nth-child(3) {
-		animation-delay: 0.32s;
+	.nav-links .motion-btn {
+		animation-delay: 0.26s;
+	}
+	.nav-links .theme-btn {
+		animation-delay: 0.34s;
+	}
+	.nav-links > a:nth-of-type(1) {
+		animation-delay: 0.42s;
+	}
+	.nav-links > a:nth-of-type(2) {
+		animation-delay: 0.5s;
 	}
 	.page-in {
 		animation: page-in 0.5s 0.05s ease-out both;
@@ -1340,6 +1354,10 @@ li:nth-child(even) > .reveal > .faq[open] {
 :root[data-motion="off"] .sticker-in,
 :root[data-motion="off"] .nav-in,
 :root[data-motion="off"] .nav-links > *,
+:root[data-motion="off"] .nav-links .gh-pill,
+:root[data-motion="off"] .nav-links .lang-btn,
+:root[data-motion="off"] .nav-links .motion-btn,
+:root[data-motion="off"] .nav-links .theme-btn,
 :root[data-motion="off"] .page-in,
 :root[data-motion="off"] .foot-in {
 	opacity: 1 !important;
