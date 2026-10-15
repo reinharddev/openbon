@@ -100,7 +100,7 @@ export default async function Home() {
 							</span>
 						))}
 					</h1>
-					<p className="hero-in max-w-lg text-lg text-muted" style={{ "--d": "0.45s" } as React.CSSProperties}>
+					<p className="hero-in max-w-lg text-lg text-muted" style={{ "--d": "0.75s" } as React.CSSProperties}>
 						{t("hero.sub")}
 					</p>
 					<div className="hero-btns flex flex-wrap gap-4">

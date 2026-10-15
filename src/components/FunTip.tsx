@@ -18,7 +18,7 @@ type Props = {
  * Wraps a control and, on mouse hover only, sometimes pops up a small cheeky speech bubble
  * with a random message. Touch and pen input never trigger it.
  */
-export default function FunTip({ messages, chance = 0.4, children }: Props) {
+export default function FunTip({ messages, chance = 0.7, children }: Props) {
 	const [tip, setTip] = useState<Tip | null>(null);
 	const [leaving, setLeaving] = useState(false);
 	const lastIndex = useRef(-1);
