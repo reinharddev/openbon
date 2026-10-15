@@ -1,8 +1,9 @@
 import Link from "next/link";
 import HeroMock from "@/components/HeroMock";
-import Icon, { type IconName } from "@/components/Icon";
+import AnimatedIcon, { type AnimatedIconName } from "@/components/AnimatedIcon";
+import Icon from "@/components/Icon";
 
-const features: { icon: IconName; title: string; body: string; shadow: string; tilt: string }[] = [
+const features: { icon: AnimatedIconName; title: string; body: string; shadow: string; tilt: string }[] = [
 	{ icon: "image", title: "No watermark", body: "Clean downloads. Frames and photos come out exactly as you made them.", shadow: "card-lime", tilt: "-rotate-1" },
 	{ icon: "ban", title: "No ads", body: "Not a single banner, popup, or sponsored anything between you and your campaign.", shadow: "card-pink", tilt: "rotate-1" },
 	{ icon: "shield", title: "Stays on your device", body: "Photos are composed in your browser. They never get uploaded.", shadow: "card-violet", tilt: "-rotate-1" },
@@ -71,9 +72,9 @@ export default function Home() {
 				</h2>
 				<ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 					{features.map((f) => (
-						<li key={f.title} className={`card ${f.shadow} ${f.tilt} p-5`}>
-							<span className="mb-3 inline-flex text-accent-ink">
-								<Icon name={f.icon} className="h-7 w-7" />
+						<li key={f.title} className={`card ico-host ${f.shadow} ${f.tilt} p-5`}>
+							<span className="mb-3 inline-flex">
+								<AnimatedIcon name={f.icon} />
 							</span>
 							<h3 className="mb-1 text-lg font-extrabold">{f.title}</h3>
 							<p className="text-sm text-muted">{f.body}</p>

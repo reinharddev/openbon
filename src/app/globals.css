@@ -282,3 +282,206 @@ body {
 		box-shadow: 2px 2px 0 var(--pink);
 	}
 }
+
+/* Animated feature icons: anticipation (shrink), pop, then confetti. */
+.ico {
+	position: relative;
+	display: inline-flex;
+	width: 2.5rem;
+	height: 2.5rem;
+	color: var(--accent-ink);
+}
+
+.ico svg {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+.ico svg * {
+	transform-box: fill-box;
+	transform-origin: center;
+}
+
+.ico i {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 8px;
+	height: 8px;
+	margin: -4px 0 0 -4px;
+	border-radius: 2px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.a-draw {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ico-host:hover .ico svg,
+	.ico-host:active .ico svg {
+		animation: ico-pop 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+
+	.ico-host:hover .ico i,
+	.ico-host:active .ico i {
+		animation: ico-confetti 0.9s 0.28s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+	}
+	.ico-host:hover .ico i:nth-child(odd) {
+		animation-delay: 0.34s;
+	}
+
+	.ico-host:hover .a-draw,
+	.ico-host:active .a-draw {
+		animation: ico-draw 0.45s 0.3s ease-out both;
+	}
+	.ico-host:hover .a-sun {
+		animation: ico-hop 0.6s 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.ico-host:hover .a-spin {
+		animation: ico-spin 0.7s 0.1s cubic-bezier(0.5, 0, 0.2, 1) both;
+	}
+	.ico-host:hover .a-bounce {
+		animation: ico-hop 0.6s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.ico-host:hover .a-layer-top {
+		animation: ico-layer-up 0.8s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.ico-host:hover .a-layer-bottom {
+		animation: ico-layer-down 0.8s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.ico-host:hover .a-link-a {
+		animation: ico-link-a 0.8s 0.05s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.ico-host:hover .a-link-b {
+		animation: ico-link-b 0.8s 0.05s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.ico-host:hover .a-head {
+		animation: ico-hop 0.6s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.ico-host:hover .a-x {
+		animation: ico-x 0.7s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+}
+
+@keyframes ico-pop {
+	0% {
+		transform: scale(1);
+	}
+	22% {
+		transform: scale(0.78);
+	}
+	55% {
+		transform: scale(1.18) rotate(-4deg);
+	}
+	100% {
+		transform: scale(1) rotate(0);
+	}
+}
+
+@keyframes ico-confetti {
+	0% {
+		opacity: 0;
+		transform: translate(0, 0) scale(0.4) rotate(0);
+	}
+	15% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translate(var(--x), var(--y)) scale(1) rotate(var(--r));
+	}
+}
+
+@keyframes ico-draw {
+	0% {
+		stroke-dashoffset: 1;
+	}
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes ico-hop {
+	0% {
+		transform: translateY(0) scale(1);
+	}
+	40% {
+		transform: translateY(-3px) scale(1.25);
+	}
+	100% {
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes ico-spin {
+	from {
+		transform: rotate(0);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes ico-layer-up {
+	0% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(-4px);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes ico-layer-down {
+	0% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(4px);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes ico-link-a {
+	0% {
+		transform: translate(0, 0);
+	}
+	35% {
+		transform: translate(4px, -4px);
+	}
+	100% {
+		transform: translate(0, 0);
+	}
+}
+
+@keyframes ico-link-b {
+	0% {
+		transform: translate(0, 0);
+	}
+	35% {
+		transform: translate(-4px, 4px);
+	}
+	100% {
+		transform: translate(0, 0);
+	}
+}
+
+@keyframes ico-x {
+	0% {
+		transform: rotate(0) scale(1);
+	}
+	45% {
+		transform: rotate(180deg) scale(1.5);
+	}
+	100% {
+		transform: rotate(360deg) scale(1);
+	}
+}
