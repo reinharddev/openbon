@@ -24,6 +24,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 	const [busy, setBusy] = useState(false);
 	const [fileName, setFileName] = useState("");
 	const [saved, setSaved] = useState(false);
+	const [dragging, setDragging] = useState(false);
 	const downloadRef = useRef<HTMLButtonElement>(null);
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -129,6 +130,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 	function onPointerUp(e: React.PointerEvent<HTMLCanvasElement>) {
 		pointers.current.delete(e.pointerId);
 		if (pointers.current.size < 2) pinchStart.current = null;
+		if (pointers.current.size === 0) setDragging(false);
 	}
 
 	async function onDownload() {
@@ -200,7 +202,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 					width={frame.width}
 					height={frame.height}
 					className="block h-auto w-full touch-none"
-					style={{ cursor: photo ? "grab" : "default", aspectRatio: `${frame.width} / ${frame.height}` }}
+					style={{ cursor: photo ? (dragging ? "grabbing" : "grab") : "not-allowed", aspectRatio: `${frame.width} / ${frame.height}` }}
 					onPointerDown={onPointerDown}
 					onPointerMove={onPointerMove}
 					onPointerUp={onPointerUp}

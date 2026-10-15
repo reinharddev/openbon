@@ -82,6 +82,41 @@ body {
 }
 
 @layer base {
+	/* Cursors follow the action. */
+	a[href],
+	button,
+	summary,
+	select,
+	label[for],
+	[role="button"],
+	input[type="file"],
+	input[type="checkbox"],
+	input[type="radio"],
+	input[type="range"] {
+		cursor: pointer;
+	}
+	input[type="range"] {
+		cursor: grab;
+	}
+	input[type="range"]:active {
+		cursor: grabbing;
+	}
+	input:not([type]),
+	input[type="text"],
+	input[type="url"],
+	input[type="search"],
+	textarea {
+		cursor: text;
+	}
+	button:disabled,
+	input:disabled,
+	select:disabled,
+	[aria-disabled="true"] {
+		cursor: not-allowed;
+	}
+	input[readonly] {
+		cursor: text;
+	}
 	input,
 	textarea,
 	button {
