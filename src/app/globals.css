@@ -1002,3 +1002,86 @@ body {
 		transition: none;
 	}
 }
+
+/* Step badges: number turns into an icon on hover, and back afterwards. */
+.step-badge {
+	position: relative;
+	display: grid;
+	place-items: center;
+	line-height: 1;
+}
+.step-num,
+.step-ico {
+	grid-area: 1 / 1;
+	transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s;
+}
+.step-ico {
+	width: 1.4rem;
+	height: 1.4rem;
+	opacity: 0;
+	transform: scale(0.3) rotate(-90deg);
+}
+.step-host:hover .step-num,
+.step-host:active .step-num {
+	opacity: 0;
+	transform: scale(0.3) rotate(90deg);
+}
+.step-host:hover .step-ico,
+.step-host:active .step-ico {
+	opacity: 1;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.step-host:hover .su-arrow {
+		animation: step-up 0.9s 0.25s ease-in-out infinite;
+	}
+	.step-host:hover .sh-line {
+		stroke-dasharray: 1;
+		animation: ico-draw 0.35s 0.15s ease-out both;
+	}
+	.step-host:hover .sh-line-b {
+		animation-delay: 0.3s;
+	}
+	.step-host:hover .sh-node {
+		transform-box: fill-box;
+		transform-origin: center;
+		animation: step-node 0.5s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+	.step-host:hover .sh-node-b {
+		animation-delay: 0.3s;
+	}
+	.step-host:hover .sh-node-c {
+		animation-delay: 0.45s;
+	}
+	.step-host:hover .sf-person {
+		animation: step-person 0.65s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+}
+
+@keyframes step-up {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	45% {
+		transform: translateY(-3.5px);
+	}
+}
+
+@keyframes step-node {
+	from {
+		transform: scale(0);
+	}
+	to {
+		transform: scale(1);
+	}
+}
+
+@keyframes step-person {
+	from {
+		transform: translateY(16px);
+	}
+	to {
+		transform: translateY(0);
+	}
+}

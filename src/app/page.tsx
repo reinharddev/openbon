@@ -4,6 +4,7 @@ import HeroMock from "@/components/HeroMock";
 import Reveal from "@/components/Reveal";
 import AnimatedIcon, { type AnimatedIconName } from "@/components/AnimatedIcon";
 import Icon from "@/components/Icon";
+import StepBadge from "@/components/StepBadge";
 
 const features: { icon: AnimatedIconName; title: string; body: string; shadow: string; tilt: string }[] = [
 	{ icon: "image", title: "No watermark", body: "Clean downloads. Frames and photos come out exactly as you made them.", shadow: "card-lime", tilt: "-rotate-1" },
@@ -148,8 +149,8 @@ export default function Home() {
 					{steps.map((step, i) => (
 						<li key={step.title}>
 							<Reveal delay={i * 120} className="h-full">
-								<div className="card card-ink flex h-full gap-4 p-5">
-									<span className="chip chip-lime h-9 w-9 shrink-0 text-center text-lg leading-6">{i + 1}</span>
+								<div className="card card-ink step-host flex h-full gap-4 p-5">
+									<StepBadge n={(i + 1) as 1 | 2 | 3} />
 									<div>
 										<h3 className="mb-1 font-extrabold">{step.title}</h3>
 										<p className="text-sm text-muted">{step.body}</p>
