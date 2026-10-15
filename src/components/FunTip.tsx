@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { motionOff } from "@/lib/motion";
 
 type Tip = { id: number; text: string; tilt: number; color: string };
 
@@ -46,7 +47,7 @@ export default function FunTip({ messages, chance = 0.4, children }: Props) {
 	}
 
 	function onEnter(e: React.PointerEvent) {
-		if (e.pointerType !== "mouse" || messages.length === 0) return;
+		if (e.pointerType !== "mouse" || messages.length === 0 || motionOff()) return;
 		clearTimeout(removeTimer.current);
 		if (Math.random() > chance) return;
 

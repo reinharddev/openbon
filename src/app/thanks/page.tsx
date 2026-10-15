@@ -1,38 +1,37 @@
 import type { Metadata } from "next";
 import Sticker from "@/components/Sticker";
 import { supporters } from "@/content/supporters";
+import { getT } from "@/lib/i18n/server";
 
-export const metadata: Metadata = {
-	title: "Special thanks",
-	description: "The people who help keep OpenBon free, with no ads and no watermark.",
-	alternates: { canonical: "/thanks" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const { t } = await getT();
+	return { title: t("thanks.meta"), description: t("thanks.metaDesc"), alternates: { canonical: "/thanks" } };
+}
 
 const donateUrl = process.env.NEXT_PUBLIC_DONATE_URL;
 const SHADOWS = ["card-lime", "card-pink", "card-violet"] as const;
 
-export default function ThanksPage() {
+export default async function ThanksPage() {
+	const { t } = await getT();
 	const list = [...supporters].reverse();
 
 	return (
 		<div className="mx-auto flex max-w-2xl flex-col gap-8">
 			<div>
 				<h1 className="text-3xl font-extrabold tracking-tight">
-					Special <span className="mark">thanks</span>
+					{t("thanks.title", { mark: "" })}
+					<span className="mark">{t("thanks.mark")}</span>
 				</h1>
-				<p className="mt-2 text-muted">
-					OpenBon is free, with no ads and no watermark. These people help keep it running. Supporter names may be
-					listed here.
-				</p>
+				<p className="mt-2 text-muted">{t("thanks.sub")}</p>
 			</div>
 
 			{list.length === 0 ? (
 				<div className="card card-ink flex flex-col items-center p-8 text-center">
 					<Sticker name="heart" tilt={-7} className="sticker-in mb-3 w-20" />
-					<p className="text-muted">No supporters listed yet. You could be the first.</p>
+					<p className="text-muted">{t("thanks.empty")}</p>
 					{donateUrl ? (
 						<a href={donateUrl} target="_blank" rel="noopener noreferrer" className="btn btn-lime mt-4">
-							Support OpenBon
+							{t("thanks.support")}
 						</a>
 					) : null}
 				</div>

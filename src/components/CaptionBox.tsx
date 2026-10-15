@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { fillCaption, placeholderKeys, splitCaption } from "@/lib/caption";
 import { confettiBurst } from "@/lib/fx";
+import { useI18n } from "./I18nProvider";
 
 async function copyText(text: string) {
 	try {
@@ -23,6 +24,7 @@ async function copyText(text: string) {
 
 /** Shows the creator's caption template; people fill in [placeholders] in a popup and copy the result. */
 export default function CaptionBox({ template: creatorTemplate }: { template: string }) {
+	const { t } = useI18n();
 	const hasCreator = creatorTemplate.trim().length > 0;
 	const [mode, setMode] = useState<"creator" | "paste">(hasCreator ? "creator" : "paste");
 	const [custom, setCustom] = useState("");
@@ -50,17 +52,17 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 		<section aria-labelledby="caption-title" className="card card-pink flex flex-col gap-3 p-5">
 			<div className="flex flex-wrap items-center justify-between gap-3">
 				<h2 id="caption-title" className="text-lg font-extrabold">
-					Caption
+					{t("cap.title")}
 				</h2>
 				<div className="flex flex-wrap gap-2">
 					{keys.length > 0 ? (
 						<button type="button" className="btn btn-ghost btn-sm" onClick={() => dialogRef.current?.showModal()}>
-							Edit
+							{t("cap.edit")}
 						</button>
 					) : null}
 					{template.trim() ? (
 						<button ref={copyRef} type="button" className="btn btn-lime btn-sm" onClick={() => onCopy()}>
-							{copied ? "Copied!" : "Copy"}
+							{copied ? t("cap.copied") : t("cap.copy")}
 						</button>
 					) : null}
 				</div>
@@ -74,7 +76,7 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 						onClick={() => setMode("creator")}
 						className={`chip ${mode === "creator" ? "chip-lime" : ""}`}
 					>
-						From the creator
+						{t("cap.fromCreator")}
 					</button>
 					<button
 						type="button"
@@ -82,7 +84,7 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 						onClick={() => setMode("paste")}
 						className={`chip ${mode === "paste" ? "chip-lime" : ""}`}
 					>
-						Paste your own
+						{t("cap.pasteOwn")}
 					</button>
 				</div>
 			) : null}
@@ -90,7 +92,7 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 			{mode === "paste" ? (
 				<div>
 					<label htmlFor="caption-paste" className="mb-1 block text-sm font-extrabold">
-						Paste a caption template
+						{t("cap.pasteLabel")}
 					</label>
 					<textarea
 						id="caption-paste"
@@ -99,7 +101,7 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 						value={custom}
 						onChange={(e) => setCustom(e.target.value)}
 						className="field"
-						placeholder={"Paste a caption that has blanks like [Name] or [Class]. We'll let you fill them in."}
+						placeholder={t("cap.pastePh")}
 					/>
 				</div>
 			) : null}
@@ -118,13 +120,13 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 			</p>
 			) : null}
 			{template.trim() && keys.length === 0 && mode === "paste" ? (
-				<p className="text-xs text-muted">No [blanks] found. Wrap anything you want to change in square brackets.</p>
+				<p className="text-xs text-muted">{t("cap.noBlanks")}</p>
 			) : null}
 			{keys.length > 0 ? (
 				<p className="text-xs text-muted">
 					{missing === 0
-						? "All filled in. Copy it and post away."
-						: `Press Edit to fill in ${missing} blank${missing > 1 ? "s" : ""}, then copy.`}
+						? t("cap.allFilled")
+						: t("cap.fillN", { n: missing })}
 				</p>
 			) : null}
 
@@ -145,9 +147,9 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 				>
 					<div className="flex items-start justify-between gap-3">
 						<h3 id="caption-dialog-title" className="text-xl font-extrabold">
-							Fill in your caption
+							{t("cap.dialogTitle")}
 						</h3>
-						<button type="submit" className="tap -mr-2 -mt-1 px-2 text-2xl font-extrabold leading-none" aria-label="Close">
+						<button type="submit" className="tap -mr-2 -mt-1 px-2 text-2xl font-extrabold leading-none" aria-label={t("cap.close")}>
 							×
 						</button>
 					</div>
@@ -172,7 +174,7 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 					</div>
 
 					<div>
-						<p className="mb-1 text-sm font-extrabold">Preview</p>
+						<p className="mb-1 text-sm font-extrabold">{t("cap.preview")}</p>
 						<p className="whitespace-pre-wrap break-words rounded-xl border-2 border-line p-3 text-sm">{result}</p>
 					</div>
 
@@ -185,10 +187,10 @@ export default function CaptionBox({ template: creatorTemplate }: { template: st
 								dialogRef.current?.close();
 							}}
 						>
-							Copy caption
+							{t("cap.copyCaption")}
 						</button>
 						<button type="submit" className="btn btn-ghost">
-							Done
+							{t("cap.done")}
 						</button>
 					</div>
 				</form>

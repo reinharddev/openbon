@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
 import CreateForm from "@/components/CreateForm";
+import { getT } from "@/lib/i18n/server";
 
-export const metadata: Metadata = {
-	title: "Make a frame",
-	description: "Upload a transparent PNG, get one share link. No account, no watermark, up to 10 frames per campaign.",
-	alternates: { canonical: "/create" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const { t } = await getT();
+	return { title: t("create.meta"), description: t("create.metaDesc"), alternates: { canonical: "/create" } };
+}
 
-export default function CreatePage() {
+export default async function CreatePage() {
+	const { t } = await getT();
 	return (
 		<div className="mx-auto flex max-w-xl flex-col gap-6">
 			<div>
 				<h1 className="text-3xl font-extrabold tracking-tight">
-					Make a <span className="mark">frame</span>
+					{t("create.title", { mark: "" })}
+					<span className="mark">{t("create.mark")}</span>
 				</h1>
-				<p className="mt-2 text-muted">No account needed. You'll get a share link and an edit key.</p>
+				<p className="mt-2 text-muted">{t("create.sub")}</p>
 			</div>
 			<CreateForm />
 		</div>

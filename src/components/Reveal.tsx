@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { motionOff } from "@/lib/motion";
 
 type Props = {
 	as?: "div" | "li" | "section";
@@ -19,7 +20,7 @@ export default function Reveal({ as = "div", delay = 0, className = "", children
 		const el = ref.current;
 		if (!el) return;
 		(window as unknown as { __hydrated?: boolean }).__hydrated = true;
-		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+		if (motionOff() || !("IntersectionObserver" in window)) {
 			el.classList.add("is-in");
 			return;
 		}

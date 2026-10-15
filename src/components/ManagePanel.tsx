@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useI18n } from "./I18nProvider";
 
 export default function ManagePanel({ slug }: { slug: string }) {
+	const { t } = useI18n();
 	const [key, setKey] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
@@ -24,7 +26,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 			const res = await fetch(`/api/campaigns/${slug}`, { method: "DELETE", headers: { "x-edit-key": key } });
 			if (!res.ok) {
 				const data = (await res.json().catch(() => ({}))) as { error?: string };
-				setError(data.error ?? "Failed to delete the campaign.");
+				setError(data.error ?? t("manage.errFail"));
 				return;
 			}
 			try {
@@ -32,7 +34,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 			} catch {}
 			setDeleted(true);
 		} catch {
-			setError("Could not reach the server.");
+			setError(t("manage.errNet"));
 		} finally {
 			setBusy(false);
 		}
@@ -41,9 +43,9 @@ export default function ManagePanel({ slug }: { slug: string }) {
 	if (deleted) {
 		return (
 			<div className="flex flex-col items-start gap-3">
-				<p>Campaign deleted.</p>
+				<p>{t("manage.deleted")}</p>
 				<Link href="/" className="btn btn-ghost">
-					Back to home
+					{t("nf.home")}
 				</Link>
 			</div>
 		);
@@ -59,14 +61,14 @@ export default function ManagePanel({ slug }: { slug: string }) {
 
 			<div>
 				<label htmlFor="key" className="mb-1 block text-sm font-extrabold">
-					Edit key
+					{t("manage.key")}
 				</label>
 				<input
 					id="key"
 					value={key}
 					onChange={(e) => setKey(e.target.value)}
 					className="field font-mono"
-					placeholder="Paste your edit key here"
+					placeholder={t("manage.keyPh")}
 				/>
 			</div>
 
@@ -74,7 +76,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 
 			{confirming ? (
 				<div className="card card-pink flex flex-col gap-3 p-4">
-					<p className="text-sm">Delete this campaign permanently? Its link will stop working.</p>
+					<p className="text-sm">{t("manage.confirm")}</p>
 					<div className="flex gap-3">
 						<button
 							type="button"
@@ -82,14 +84,14 @@ export default function ManagePanel({ slug }: { slug: string }) {
 							disabled={busy}
 							className="btn btn-danger btn-sm"
 						>
-							{busy ? "Deleting..." : "Yes, delete"}
+							{busy ? t("manage.deleting") : t("manage.yes")}
 						</button>
 						<button
 							type="button"
 							onClick={() => setConfirming(false)}
 							className="btn btn-ghost btn-sm"
 						>
-							Cancel
+							{t("manage.cancel")}
 						</button>
 					</div>
 				</div>
@@ -101,7 +103,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 						disabled={!key}
 						className="btn btn-danger"
 					>
-						Delete campaign
+						{t("manage.delete")}
 					</button>
 				</div>
 			)}

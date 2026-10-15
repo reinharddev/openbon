@@ -4,6 +4,7 @@ import CaptionBox from "@/components/CaptionBox";
 import PhotoEditor from "@/components/PhotoEditor";
 import ReportButton from "@/components/ReportButton";
 import { getCampaignBySlug, getFrames } from "@/lib/campaigns";
+import { getT } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,9 +12,10 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
+	const { t } = await getT();
 	const campaign = await getCampaignBySlug(slug);
-	if (!campaign) return { title: "Not found", robots: { index: false } };
-	const description = campaign.description || `Add your photo to the "${campaign.title}" frame. Free, no watermark.`;
+	if (!campaign) return { title: t("c.notFound"), robots: { index: false } };
+	const description = campaign.description || t("c.defaultDesc", { title: campaign.title });
 	const frames = await getFrames(campaign.id);
 	const cover = frames[0] ? `/api/frames/${frames[0].id}` : "/og.png";
 	const listed = campaign.visibility === "public";
@@ -35,6 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CampaignPage({ params }: Props) {
 	const { slug } = await params;
+	const { t, locale } = await getT();
 	const campaign = await getCampaignBySlug(slug);
 	if (!campaign) notFound();
 	const frames = await getFrames(campaign.id);
@@ -46,7 +49,7 @@ export default async function CampaignPage({ params }: Props) {
 				<h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{campaign.title}</h1>
 				{campaign.description ? <p className="mt-2 max-w-2xl text-muted">{campaign.description}</p> : null}
 				<p className="mt-3">
-					<span className="chip chip-lime -rotate-1">Used {campaign.uses.toLocaleString("en-US")} times</span>
+					<span className="chip chip-lime -rotate-1">{t("c.used", { n: campaign.uses.toLocaleString(locale === "id" ? "id-ID" : "en-US") })}</span>
 				</p>
 			</div>
 

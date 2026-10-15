@@ -820,7 +820,6 @@ body {
 
 /* Decorative stickers: die-cut look, hover wiggle. */
 .sticker {
-	display: block;
 	height: auto;
 	overflow: visible;
 	transform: rotate(var(--tilt, 0deg));
@@ -1320,4 +1319,70 @@ li:nth-child(even) > .reveal > .faq[open] {
 .lang-btn span[data-on="true"] {
 	background: var(--accent);
 	color: #0c0c0d;
+}
+
+/* Motion off: the toggle in the navbar (or the system "reduce motion" setting) sets data-motion="off". */
+:root[data-motion="off"] *,
+:root[data-motion="off"] *::before,
+:root[data-motion="off"] *::after {
+	animation: none !important;
+	transition: none !important;
+	scroll-behavior: auto !important;
+}
+:root[data-motion="off"] .reveal,
+:root[data-motion="off"] .hw,
+:root[data-motion="off"] .hero-in,
+:root[data-motion="off"] .hero-btns > *,
+:root[data-motion="off"] .sticker-in,
+:root[data-motion="off"] .nav-in,
+:root[data-motion="off"] .nav-links > *,
+:root[data-motion="off"] .page-in,
+:root[data-motion="off"] .foot-in {
+	opacity: 1 !important;
+}
+:root[data-motion="off"] .hl::before,
+:root[data-motion="off"] .hl::after {
+	clip-path: polygon(0 2%, 100% 0, 99% 100%, 1% 97%) !important;
+}
+:root[data-motion="off"] .funtip {
+	display: none;
+}
+::view-transition-group(root) {
+	animation-duration: 0s;
+}
+
+/* Motion toggle. */
+.motion-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 2px solid var(--border);
+	border-radius: 0.75rem;
+	background: var(--surface);
+	color: var(--foreground);
+	box-shadow: 3px 3px 0 var(--accent);
+	cursor: pointer;
+	transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.motion-btn:hover {
+	transform: translate(-1px, -1px) rotate(3deg);
+}
+.motion-btn svg {
+	width: 1.4rem;
+	height: 1.4rem;
+}
+.motion-btn .slash {
+	opacity: 0;
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	transition: stroke-dashoffset 0.3s, opacity 0.2s;
+}
+:root[data-motion="off"] .motion-btn .slash {
+	opacity: 1;
+	stroke-dashoffset: 0;
+}
+:root[data-motion="off"] .motion-btn .sp {
+	opacity: 0.45;
 }

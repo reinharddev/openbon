@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { confettiBurst } from "@/lib/fx";
+import { useI18n } from "./I18nProvider";
 import Sticker from "./Sticker";
 import FilePicker from "./FilePicker";
 
@@ -42,6 +43,7 @@ function Choice({
 }
 
 export default function CreateForm() {
+	const { t, locale } = useI18n();
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const [caption, setCaption] = useState("");
@@ -62,15 +64,15 @@ export default function CreateForm() {
 	function onFiles(list: FileList | null) {
 		const next = Array.from(list ?? []);
 		if (next.length > MAX_FRAMES) {
-			setError(`Up to ${MAX_FRAMES} frames per campaign.`);
+			setError(t("create.errMax", { n: MAX_FRAMES }));
 			return;
 		}
 		if (next.some((f) => f.type !== "image/png")) {
-			setError("Frames must be PNG files.");
+			setError(t("create.errPng"));
 			return;
 		}
 		if (next.some((f) => f.size > MAX_BYTES)) {
-			setError("Each frame must be 2 MB or smaller.");
+			setError(t("create.errSize"));
 			return;
 		}
 		setError(null);
@@ -80,7 +82,7 @@ export default function CreateForm() {
 	async function onSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		if (files.length === 0) {
-			setError("Upload at least one PNG frame.");
+			setError(t("create.errNone"));
 			return;
 		}
 		setBusy(true);
@@ -98,7 +100,7 @@ export default function CreateForm() {
 			const res = await fetch("/api/campaigns", { method: "POST", body });
 			const data = (await res.json()) as Created & { error?: string };
 			if (!res.ok) {
-				setError(data.error ?? "Failed to create the campaign.");
+				setError(data.error ?? t("create.errFail"));
 				return;
 			}
 			try {
@@ -106,7 +108,7 @@ export default function CreateForm() {
 			} catch {}
 			setCreated({ slug: data.slug, editKey: data.editKey });
 		} catch {
-			setError("Could not reach the server. Please try again.");
+			setError(t("create.errNet"));
 		} finally {
 			setBusy(false);
 		}
@@ -130,17 +132,17 @@ export default function CreateForm() {
 						/>
 					</svg>
 					<div>
-						<h2 className="text-xl font-extrabold">Boom, it's live.</h2>
-						<p className="text-sm text-muted">Share the link and watch the frames roll in.</p>
+						<h2 className="text-xl font-extrabold">{t("create.liveTitle")}</h2>
+						<p className="text-sm text-muted">{t("create.liveBody")}</p>
 					</div>
 					<Sticker name="free" tilt={10} className="sticker-in ml-auto hidden w-16 shrink-0 sm:block" />
 				</div>
 				<div>
-					<p className="mb-1 text-sm font-extrabold">Share link</p>
+					<p className="mb-1 text-sm font-extrabold">{t("create.shareLink")}</p>
 					<input readOnly value={shareUrl} onFocus={(e) => e.currentTarget.select()} className={inputClass} />
 				</div>
 				<div>
-					<p className="mb-1 text-sm font-extrabold">Edit key (keep it safe)</p>
+					<p className="mb-1 text-sm font-extrabold">{t("create.editKey")}</p>
 					<input
 						readOnly
 						value={created.editKey}
@@ -148,7 +150,7 @@ export default function CreateForm() {
 						className={`${inputClass} font-mono`}
 					/>
 					<p className="mt-1 text-xs text-muted">
-						This key is needed to delete the campaign and cannot be recovered if lost.
+						{t("create.editKeyHint")}
 					</p>
 				</div>
 				<div className="flex flex-wrap gap-3">
@@ -156,13 +158,13 @@ export default function CreateForm() {
 						href={`/c/${created.slug}`}
 						className="btn btn-lime"
 					>
-						Open campaign
+						{t("create.open")}
 					</Link>
 					<Link
 						href={`/manage/${created.slug}`}
 						className="btn btn-ghost"
 					>
-						Manage
+						{t("create.manage")}
 					</Link>
 				</div>
 			</div>
@@ -173,7 +175,7 @@ export default function CreateForm() {
 		<form onSubmit={onSubmit} className="flex flex-col gap-5">
 			<div>
 				<label htmlFor="title" className="mb-1 block text-sm font-extrabold">
-					Title
+					{t("create.fTitle")}
 				</label>
 				<input
 					id="title"
@@ -182,13 +184,13 @@ export default function CreateForm() {
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
 					className={inputClass}
-					placeholder="e.g. Community Cleanup Day"
+					placeholder={t("create.fTitlePh")}
 				/>
 			</div>
 
 			<div>
 				<label htmlFor="description" className="mb-1 block text-sm font-extrabold">
-					Description <span className="font-normal text-muted">(optional)</span>
+					{t("create.fDesc")} <span className="font-normal text-muted">{t("create.optional")}</span>
 				</label>
 				<textarea
 					id="description"
@@ -202,7 +204,7 @@ export default function CreateForm() {
 
 			<div>
 				<label htmlFor="caption" className="mb-1 block text-sm font-extrabold">
-					Caption template <span className="font-normal text-muted">(optional)</span>
+					{t("create.fCaption")} <span className="font-normal text-muted">{t("create.optional")}</span>
 				</label>
 				<textarea
 					id="caption"
@@ -211,49 +213,49 @@ export default function CreateForm() {
 					value={caption}
 					onChange={(e) => setCaption(e.target.value)}
 					className={inputClass}
-					placeholder={"Hi, I'm [Name] from [Class]! Proud to join #CleanupDay."}
+					placeholder={t("create.fCaptionPh")}
 				/>
 				<p className="mt-1 text-xs text-muted">
-					Wrap parts people should change in [square brackets]. They can fill them in and copy the finished caption.
+					{t("create.fCaptionHint")}
 				</p>
 			</div>
 
 			<div>
 				<label htmlFor="frames" className="mb-1 block text-sm font-extrabold">
-					Frames (transparent PNG, up to {MAX_FRAMES} files, 2 MB each)
+					{t("create.fFrames", { n: MAX_FRAMES })}
 				</label>
 				<FilePicker
 					id="frames"
 					accept="image/png"
 					multiple
-					buttonLabel="Choose frames"
-					status={files.length > 0 ? `${files.length} file(s) selected` : "No file chosen"}
+					buttonLabel={t("create.chooseFrames")}
+					status={files.length > 0 ? t("create.filesSelected", { n: files.length }) : t("create.noFile")}
 					onFiles={onFiles}
 				/>
-				<p className="mt-1 text-xs text-muted">Size 200 to 2048 px. Square (1:1) works best.</p>
+				<p className="mt-1 text-xs text-muted">{t("create.sizeHint")}</p>
 			</div>
 
 			<fieldset>
-				<legend className="mb-2 text-sm font-extrabold">Visibility</legend>
+				<legend className="mb-2 text-sm font-extrabold">{t("create.visibility")}</legend>
 				<div className="grid gap-3 sm:grid-cols-2">
 					<Choice
 						checked={visibility === "unlisted"}
 						onSelect={() => setVisibility("unlisted")}
-						title="Anyone with the link"
-						body="Not listed on Explore or in search engines."
+						title={t("create.vUnlisted")}
+						body={t("create.vUnlistedBody")}
 					/>
 					<Choice
 						checked={visibility === "public"}
 						onSelect={() => setVisibility("public")}
-						title="Public"
-						body="Listed on the Explore page."
+						title={t("create.vPublic")}
+						body={t("create.vPublicBody")}
 					/>
 				</div>
 			</fieldset>
 
 			<div>
 				<label htmlFor="slug" className="mb-1 block text-sm font-extrabold">
-					Custom link <span className="font-normal text-muted">(optional)</span>
+					{t("create.fSlug")} <span className="font-normal text-muted">{t("create.optional")}</span>
 				</label>
 				<div className="flex items-center gap-2">
 					<span className="text-sm text-muted">/c/</span>
@@ -275,7 +277,7 @@ export default function CreateForm() {
 				disabled={busy}
 				className="btn btn-lime w-full"
 			>
-				{busy ? "Saving..." : "Make it live"}
+				{busy ? t("create.saving") : t("create.submit")}
 			</button>
 		</form>
 	);

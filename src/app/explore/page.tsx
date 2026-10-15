@@ -3,27 +3,29 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import Sticker from "@/components/Sticker";
 import { listPublicCampaigns } from "@/lib/campaigns";
+import { getT } from "@/lib/i18n/server";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-	title: "Explore campaigns",
-	description: "Browse the latest public photo frames shared on OpenBon and add your photo in seconds.",
-	alternates: { canonical: "/explore" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const { t } = await getT();
+	return { title: t("explore.meta"), description: t("explore.metaDesc"), alternates: { canonical: "/explore" } };
+}
 
 const SHADOWS = ["card-lime", "card-pink", "card-violet"] as const;
 
 export default async function ExplorePage() {
+	const { t, locale } = await getT();
 	const campaigns = await listPublicCampaigns();
 
 	return (
 		<div className="flex flex-col gap-8">
 			<div>
 				<h1 className="text-3xl font-extrabold tracking-tight">
-					Public <span className="mark">campaigns</span>
+					{t("explore.title", { mark: "" })}
+					<span className="mark">{t("explore.mark")}</span>
 				</h1>
-				<p className="mt-2 text-muted">The latest frames people shared with the world.</p>
+				<p className="mt-2 text-muted">{t("explore.sub")}</p>
 			</div>
 
 			{campaigns.length === 0 ? (
@@ -51,7 +53,7 @@ export default async function ExplorePage() {
 								</div>
 								<div className="p-3">
 									<p className="truncate font-extrabold">{c.title}</p>
-									<p className="text-xs text-muted">{c.uses.toLocaleString("en-US")} uses</p>
+									<p className="text-xs text-muted">{t("explore.uses", { n: c.uses.toLocaleString(locale === "id" ? "id-ID" : "en-US") })}</p>
 								</div>
 							</Link>
 						</Reveal>

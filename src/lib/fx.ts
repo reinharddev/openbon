@@ -1,3 +1,5 @@
+import { motionOff } from "./motion";
+
 type Shape = "star" | "plus" | "diamond" | "dot" | "square";
 
 const COLORS = ["var(--accent)", "var(--pink)", "var(--violet)", "var(--foreground)"];
@@ -17,7 +19,7 @@ const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const pick = <T,>(list: readonly T[]): T => list[Math.floor(Math.random() * list.length)];
 
 function reducedMotion(): boolean {
-	return typeof window === "undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	return typeof window === "undefined" || motionOff();
 }
 
 function makePiece(x: number, y: number, w: number, h: number, shape: Shape, color: string): HTMLSpanElement {

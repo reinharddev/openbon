@@ -1,7 +1,7 @@
 import Sticker from "./Sticker";
 
 /** Decorative mock: a profile photo placeholder wrapped by a campaign frame, plus a few stickers. */
-export default function HeroMock() {
+export default function HeroMock({ joinLabel }: { joinLabel: string }) {
 	return (
 		<div className="relative mx-auto flex w-full max-w-xs justify-center p-6" aria-hidden="true">
 			<div className="aspect-square w-full rotate-3 rounded-3xl border-2 border-border bg-white p-3 shadow-[8px_8px_0_var(--violet)]">
@@ -13,7 +13,7 @@ export default function HeroMock() {
 				</div>
 			</div>
 			<span className="chip chip-pink absolute bottom-2 left-0 -rotate-6 shadow-[3px_3px_0_var(--border)]">
-				Join the campaign
+				{joinLabel}
 			</span>
 			<Sticker name="nowm" tilt={10} className="sticker-in absolute -right-1 -top-1 hidden w-24 sm:block" />
 			<Sticker

@@ -2,6 +2,8 @@
 
 import { flushSync } from "react-dom";
 import { useEffect } from "react";
+import { motionOff } from "@/lib/motion";
+import { useI18n } from "./I18nProvider";
 
 const KEY = "openbon-theme";
 type Theme = "light" | "dark";
@@ -16,6 +18,7 @@ function apply(theme: Theme) {
 
 /** Sun and moon morph into each other; the page colors sweep out from the button in a circle. */
 export default function ThemeToggle() {
+	const { t } = useI18n();
 	useEffect(() => {
 		const mq = window.matchMedia("(prefers-color-scheme: dark)");
 		const onChange = () => {
@@ -34,7 +37,7 @@ export default function ThemeToggle() {
 			localStorage.setItem(KEY, next);
 		} catch {}
 
-		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		const reduced = motionOff();
 		const root = document.documentElement;
 		type VT = { ready: Promise<void> };
 		const start = (document as Document & { startViewTransition?: (cb: () => void) => VT }).startViewTransition;
@@ -65,7 +68,7 @@ export default function ThemeToggle() {
 	}
 
 	return (
-		<button type="button" onClick={toggle} className="theme-btn" aria-label="Toggle light and dark mode" title="Light / dark">
+		<button type="button" onClick={toggle} className="theme-btn" aria-label={t("nav.themeLabel")} title={t("nav.themeLabel")}>
 			<svg viewBox="0 0 24 24" className="theme-icon" aria-hidden="true">
 				<defs>
 					<mask id="moon-cut">

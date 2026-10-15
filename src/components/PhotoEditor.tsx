@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { confettiBurst } from "@/lib/fx";
 import FilePicker from "./FilePicker";
+import { useI18n } from "./I18nProvider";
 import Sticker from "./Sticker";
 
 type FrameInfo = { id: string; width: number; height: number };
@@ -17,6 +18,7 @@ type Transform = { scale: number; x: number; y: number };
 const INITIAL: Transform = { scale: 1, x: 0, y: 0 };
 
 export default function PhotoEditor({ slug, frames }: Props) {
+	const { t } = useI18n();
 	const [frameId, setFrameId] = useState(frames[0].id);
 	const [photo, setPhoto] = useState<HTMLImageElement | null>(null);
 	const [transform, setTransform] = useState<Transform>(INITIAL);
@@ -162,21 +164,21 @@ export default function PhotoEditor({ slug, frames }: Props) {
 			<div className="flex flex-col gap-5 md:col-start-2 md:row-start-1">
 				<div>
 					<label className="mb-2 block text-sm font-extrabold" htmlFor="photo">
-						1. Choose a photo
+						{t("c.step1")}
 					</label>
 					<FilePicker
 						id="photo"
 						accept="image/*"
-						buttonLabel="Choose photo"
-						status={fileName || "No file chosen"}
+						buttonLabel={t("c.choosePhoto")}
+						status={fileName || t("create.noFile")}
 						onFiles={onPickPhoto}
 					/>
-					<p className="mt-2 text-xs text-muted">Your photo is not uploaded. Everything is processed on your device.</p>
+					<p className="mt-2 text-xs text-muted">{t("c.photoNote")}</p>
 				</div>
 
 				{frames.length > 1 ? (
 					<div>
-						<p className="mb-2 text-sm font-extrabold">Choose a frame</p>
+						<p className="mb-2 text-sm font-extrabold">{t("c.chooseFrame")}</p>
 						<div className="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-4">
 							{frames.map((f) => (
 								<button
@@ -214,7 +216,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 			<div className="flex flex-col gap-5 md:col-start-2 md:row-start-2">
 				<div>
 					<label className="mb-2 block text-sm font-extrabold" htmlFor="zoom">
-						2. Adjust position
+						{t("c.step2")}
 					</label>
 					<input
 						id="zoom"
@@ -228,14 +230,14 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						className="range"
 					/>
 					<div className="mt-2 flex items-center justify-between gap-3 text-xs text-muted">
-						<span>Drag the photo in the preview, pinch to zoom.</span>
+						<span>{t("c.dragHint")}</span>
 						<button
 							type="button"
 							disabled={!photo}
 							onClick={() => setTransform(INITIAL)}
 							className="tap shrink-0 font-bold underline disabled:no-underline disabled:opacity-50"
 						>
-							Reset
+							{t("c.reset")}
 						</button>
 					</div>
 				</div>
@@ -248,17 +250,17 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						disabled={!photo || busy}
 						className={`btn btn-lime w-full ${photo && !saved ? "ready-nudge" : ""}`}
 					>
-						3. Download
+						{t("c.download")}
 					</button>
 					{!photo ? (
-						<p className="text-xs text-muted">Pick a photo to unlock the download.</p>
+						<p className="text-xs text-muted">{t("c.pickToUnlock")}</p>
 					) : saved ? (
 						<p key="saved" className="ready-chip chip chip-pink self-start -rotate-1">
-							Saved! Go show it off.
+							{t("c.saved")}
 						</p>
 					) : (
 						<p key="ready" className="ready-chip chip chip-lime self-start -rotate-1">
-							Looking good. Ready to download!
+							{t("c.ready")}
 						</p>
 					)}
 				</div>
