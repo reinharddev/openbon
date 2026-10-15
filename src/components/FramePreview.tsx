@@ -16,6 +16,7 @@ function gcdRatio(w: number, h: number) {
 /** Shows each chosen frame over a sample portrait, so creators see what participants will see. */
 export default function FramePreview({ files, presetW, presetH }: { files: File[]; presetW: number; presetH: number }) {
 	const presetRatio = presetW / presetH;
+	const u = Math.min(presetW, presetH);
 	const stageMax = presetRatio >= 1 ? 320 : Math.round(300 * presetRatio);
 	const { t } = useI18n();
 	const [items, setItems] = useState<Item[]>([]);
@@ -60,10 +61,14 @@ export default function FramePreview({ files, presetW, presetH }: { files: File[
 								className="checker relative w-full overflow-hidden rounded-lg border-2 border-dashed border-border"
 								style={{ aspectRatio: `${presetW} / ${presetH}` }}
 							>
-								<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
-									<rect width="100" height="100" fill="#d4d4d8" />
-									<circle cx="50" cy="40" r="15" fill="#71717a" />
-									<path d="M18 100a32 32 0 0 1 64 0z" fill="#71717a" />
+								<svg viewBox={`0 0 ${presetW} ${presetH}`} className="absolute inset-0 h-full w-full" aria-hidden="true">
+									<rect width={presetW} height={presetH} fill="#d4d4d8" />
+									{/* Head sits on the exact center of the stage, where a face would go in most frames. */}
+									<circle cx={presetW / 2} cy={presetH / 2 - u * 0.04} r={u * 0.15} fill="#71717a" />
+									<path
+										d={`M${presetW / 2 - u * 0.34} ${presetH / 2 + u * 0.46}a${u * 0.34} ${u * 0.34} 0 0 1 ${u * 0.68} 0z`}
+										fill="#71717a"
+									/>
 								</svg>
 								{/* eslint-disable-next-line @next/next/no-img-element */}
 								<img src={it.url} alt="" className="absolute inset-0 h-full w-full object-contain" />
