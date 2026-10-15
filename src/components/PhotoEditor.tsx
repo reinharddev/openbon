@@ -16,6 +16,8 @@ type Props = {
 type Transform = { scale: number; x: number; y: number };
 
 const INITIAL: Transform = { scale: 1, x: 0, y: 0 };
+const MIN_SCALE = 0.2;
+const MAX_SCALE = 4;
 
 export default function PhotoEditor({ slug, frames }: Props) {
 	const { t } = useI18n();
@@ -64,6 +66,15 @@ export default function PhotoEditor({ slug, frames }: Props) {
 
 			if (photo) {
 				const cover = Math.max(width / photo.naturalWidth, height / photo.naturalHeight);
+				if (transform.scale < 1 && "filter" in ctx) {
+					// Zoomed out: fill the empty edges with a soft, blurred copy of the photo.
+					ctx.save();
+					ctx.filter = `blur(${Math.round(Math.min(width, height) / 24)}px)`;
+					const bw = photo.naturalWidth * cover * 1.15;
+					const bh = photo.naturalHeight * cover * 1.15;
+					ctx.drawImage(photo, (width - bw) / 2, (height - bh) / 2, bw, bh);
+					ctx.restore();
+				}
 				const drawW = photo.naturalWidth * cover * transform.scale;
 				const drawH = photo.naturalHeight * cover * transform.scale;
 				const dx = (width - drawW) / 2 + transform.x * width;
@@ -98,7 +109,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 	}
 
 	function clampScale(value: number) {
-		return Math.min(4, Math.max(1, value));
+		return Math.min(MAX_SCALE, Math.max(MIN_SCALE, value));
 	}
 
 	function onPointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
@@ -221,8 +232,8 @@ export default function PhotoEditor({ slug, frames }: Props) {
 					<input
 						id="zoom"
 						type="range"
-						min={1}
-						max={4}
+						min={MIN_SCALE}
+						max={MAX_SCALE}
 						step={0.01}
 						value={transform.scale}
 						disabled={!photo}
