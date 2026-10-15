@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { confettiBurst } from "@/lib/fx";
 import { useI18n } from "./I18nProvider";
+import FramePreview from "./FramePreview";
+import { makeTemplateBlob, SIZE_PRESETS } from "@/lib/presets";
 import Sticker from "./Sticker";
 import FilePicker from "./FilePicker";
 
@@ -50,6 +52,19 @@ export default function CreateForm() {
 	const [visibility, setVisibility] = useState<"unlisted" | "public">("unlisted");
 	const [slug, setSlug] = useState("");
 	const [files, setFiles] = useState<File[]>([]);
+	const [presetId, setPresetId] = useState("square");
+	const preset = SIZE_PRESETS.find((x) => x.id === presetId) ?? SIZE_PRESETS[0];
+
+	async function downloadTemplate() {
+		const blob = await makeTemplateBlob(preset);
+		if (!blob) return;
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `openbon-template-${preset.w}x${preset.h}.png`;
+		a.click();
+		setTimeout(() => URL.revokeObjectURL(url), 10_000);
+	}
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
 	const [created, setCreated] = useState<Created | null>(null);
@@ -220,6 +235,47 @@ export default function CreateForm() {
 				</p>
 			</div>
 
+			<fieldset>
+				<legend className="mb-1 text-sm font-extrabold">{t("create.sizeTitle")}</legend>
+				<p className="mb-3 text-xs text-muted">{t("create.sizeSub")}</p>
+				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+					{SIZE_PRESETS.map((p) => {
+						const on = p.id === presetId;
+						const max = 36;
+						const bw = p.w >= p.h ? max : Math.round((max * p.w) / p.h);
+						const bh = p.h >= p.w ? max : Math.round((max * p.h) / p.w);
+						return (
+							<button
+								key={p.id}
+								type="button"
+								aria-pressed={on}
+								onClick={() => setPresetId(p.id)}
+								className="choice flex-col items-start"
+								data-on={on}
+							>
+								<span className="flex h-10 items-center">
+									<span
+										aria-hidden="true"
+										className="block rounded-[4px] border-2 border-border bg-accent"
+										style={{ width: bw, height: Math.max(bh, 10) }}
+									/>
+								</span>
+								<span className="block text-left text-sm font-extrabold">
+									{p.ratio} · {p.w}×{p.h}
+								</span>
+								<span className="block text-left text-xs text-muted">{t(p.labelKey as never)}</span>
+							</button>
+						);
+					})}
+				</div>
+				<div className="mt-3 flex flex-wrap items-center gap-3">
+					<button type="button" onClick={downloadTemplate} className="btn btn-ghost btn-sm">
+						{t("create.templateBtn", { size: `${preset.w}×${preset.h}` })}
+					</button>
+					<span className="text-xs text-muted">{t("create.templateHint")}</span>
+				</div>
+			</fieldset>
+
 			<div>
 				<label htmlFor="frames" className="mb-1 block text-sm font-extrabold">
 					{t("create.fFrames", { n: MAX_FRAMES })}
@@ -233,6 +289,7 @@ export default function CreateForm() {
 					onFiles={onFiles}
 				/>
 				<p className="mt-1 text-xs text-muted">{t("create.sizeHint")}</p>
+				<FramePreview files={files} presetRatio={preset.w / preset.h} />
 			</div>
 
 			<fieldset>
