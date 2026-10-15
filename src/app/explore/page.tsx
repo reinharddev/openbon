@@ -4,7 +4,7 @@ import { listPublicCampaigns } from "@/lib/campaigns";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = { title: "Jelajahi kampanye" };
+export const metadata: Metadata = { title: "Explore campaigns" };
 
 export default async function ExplorePage() {
 	const campaigns = await listPublicCampaigns();
@@ -12,15 +12,15 @@ export default async function ExplorePage() {
 	return (
 		<div className="flex flex-col gap-6">
 			<div>
-				<h1 className="text-2xl font-semibold tracking-tight">Kampanye publik</h1>
-				<p className="mt-1 text-muted">Kampanye terbaru yang dibuat dengan visibilitas publik.</p>
+				<h1 className="text-2xl font-semibold tracking-tight">Public campaigns</h1>
+				<p className="mt-1 text-muted">The latest campaigns created with public visibility.</p>
 			</div>
 
 			{campaigns.length === 0 ? (
 				<p className="rounded-lg border border-dashed border-border p-8 text-center text-muted">
-					Belum ada kampanye publik.{" "}
+					No public campaigns yet.{" "}
 					<Link href="/create" className="text-accent underline">
-						Jadilah yang pertama.
+						Be the first.
 					</Link>
 				</p>
 			) : (
@@ -44,7 +44,7 @@ export default async function ExplorePage() {
 								</div>
 								<div className="p-3">
 									<p className="truncate font-medium">{c.title}</p>
-									<p className="text-xs text-muted">{c.uses.toLocaleString("id-ID")} pemakaian</p>
+									<p className="text-xs text-muted">{c.uses.toLocaleString("en-US")} uses</p>
 								</div>
 							</Link>
 						</li>

@@ -157,7 +157,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 			<div className="flex flex-col gap-5">
 				<div>
 					<label className="mb-2 block text-sm font-medium" htmlFor="photo">
-						1. Pilih foto
+						1. Choose a photo
 					</label>
 					<input
 						id="photo"
@@ -166,12 +166,12 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						onChange={(e) => onPickPhoto(e.target.files?.[0])}
 						className="block w-full text-sm file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-accent file:px-3 file:py-2 file:font-medium file:text-accent-foreground"
 					/>
-					<p className="mt-2 text-xs text-muted">Foto tidak diunggah ke server, semuanya diproses di perangkatmu.</p>
+					<p className="mt-2 text-xs text-muted">Your photo is not uploaded. Everything is processed on your device.</p>
 				</div>
 
 				{frames.length > 1 ? (
 					<div>
-						<p className="mb-2 text-sm font-medium">Pilih frame</p>
+						<p className="mb-2 text-sm font-medium">Choose a frame</p>
 						<div className="grid grid-cols-4 gap-2">
 							{frames.map((f) => (
 								<button
@@ -193,7 +193,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 
 				<div>
 					<label className="mb-2 block text-sm font-medium" htmlFor="zoom">
-						2. Atur posisi
+						2. Adjust position
 					</label>
 					<input
 						id="zoom"
@@ -207,7 +207,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						className="w-full accent-[var(--accent)]"
 					/>
 					<div className="mt-2 flex items-center justify-between text-xs text-muted">
-						<span>Geser foto di pratinjau, cubit untuk zoom.</span>
+						<span>Drag the photo in the preview, pinch to zoom.</span>
 						<button
 							type="button"
 							disabled={!photo}
@@ -226,7 +226,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						disabled={!photo || busy}
 						className="w-full rounded-md bg-accent px-4 py-2.5 font-medium text-accent-foreground hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
 					>
-						3. Unduh hasil
+						3. Download
 					</button>
 				</div>
 			</div>

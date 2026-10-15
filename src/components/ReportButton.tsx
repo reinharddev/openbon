@@ -23,13 +23,13 @@ export default function ReportButton({ slug }: { slug: string }) {
 	}
 
 	if (state === "done") {
-		return <p className="text-sm text-muted">Terima kasih, laporanmu sudah diterima.</p>;
+		return <p className="text-sm text-muted">Thanks, your report has been received.</p>;
 	}
 
 	if (!open) {
 		return (
 			<button type="button" onClick={() => setOpen(true)} className="text-sm text-muted underline hover:text-foreground">
-				Laporkan kampanye ini
+				Report this campaign
 			</button>
 		);
 	}
@@ -37,7 +37,7 @@ export default function ReportButton({ slug }: { slug: string }) {
 	return (
 		<form onSubmit={submit} className="flex max-w-md flex-col gap-2">
 			<label htmlFor="reason" className="text-sm font-medium">
-				Kenapa kampanye ini perlu dilaporkan?
+				Why should this campaign be reviewed?
 			</label>
 			<textarea
 				id="reason"
@@ -53,12 +53,12 @@ export default function ReportButton({ slug }: { slug: string }) {
 					disabled={state === "sending"}
 					className="rounded-md bg-danger px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
 				>
-					Kirim laporan
+					Submit report
 				</button>
 				<button type="button" onClick={() => setOpen(false)} className="text-sm text-muted underline">
-					Batal
+					Cancel
 				</button>
-				{state === "error" ? <span className="text-sm text-danger">Gagal mengirim, coba lagi.</span> : null}
+				{state === "error" ? <span className="text-sm text-danger">Failed to send, please try again.</span> : null}
 			</div>
 		</form>
 	);

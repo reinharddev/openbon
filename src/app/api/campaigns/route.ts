@@ -15,22 +15,22 @@ export async function POST(request: Request) {
 	const requestedSlug = String(form.get("slug") ?? "").trim().toLowerCase();
 	const files = form.getAll("frames").filter((f): f is File => typeof f !== "string");
 
-	if (!title || title.length > LIMITS.maxTitle) return fail(`Judul wajib diisi (maks ${LIMITS.maxTitle} karakter).`);
-	if (description.length > LIMITS.maxDescription) return fail(`Deskripsi maks ${LIMITS.maxDescription} karakter.`);
-	if (files.length < 1 || files.length > LIMITS.maxFrames) return fail(`Unggah 1 sampai ${LIMITS.maxFrames} frame.`);
+	if (!title || title.length > LIMITS.maxTitle) return fail(`Title is required (max ${LIMITS.maxTitle} characters).`);
+	if (description.length > LIMITS.maxDescription) return fail(`Description must be at most ${LIMITS.maxDescription} characters.`);
+	if (files.length < 1 || files.length > LIMITS.maxFrames) return fail(`Upload 1 to ${LIMITS.maxFrames} frames.`);
 	if (requestedSlug && !isValidSlug(requestedSlug)) {
-		return fail("Link hanya boleh huruf kecil, angka, dan tanda hubung (3-40 karakter).");
+		return fail("The link may only contain lowercase letters, numbers, and hyphens (3-40 characters).");
 	}
 
 	const parsed: { bytes: Uint8Array; width: number; height: number }[] = [];
 	for (const file of files) {
-		if (file.size > LIMITS.maxFrameBytes) return fail("Setiap frame maksimal 2 MB.");
+		if (file.size > LIMITS.maxFrameBytes) return fail("Each frame must be 2 MB or smaller.");
 		const bytes = new Uint8Array(await file.arrayBuffer());
 		const size = readPngSize(bytes);
-		if (!size) return fail("Frame harus berupa file PNG (dengan latar transparan).");
+		if (!size) return fail("Frames must be PNG files (with a transparent background).");
 		const { width, height } = size;
 		if (Math.min(width, height) < LIMITS.minFrameSize || Math.max(width, height) > LIMITS.maxFrameSize) {
-			return fail(`Ukuran frame harus antara ${LIMITS.minFrameSize} dan ${LIMITS.maxFrameSize} piksel.`);
+			return fail(`Frame size must be between ${LIMITS.minFrameSize} and ${LIMITS.maxFrameSize} pixels.`);
 		}
 		parsed.push({ bytes, width, height });
 	}
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 	let slug = requestedSlug;
 	if (slug) {
 		const taken = await DB.prepare("SELECT 1 FROM campaigns WHERE slug = ?").bind(slug).first();
-		if (taken) return fail("Link itu sudah dipakai, coba yang lain.", 409);
+		if (taken) return fail("That link is already taken, please try another.", 409);
 	} else {
 		slug = randomSlug();
 	}
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
 		]);
 	} catch {
 		await Promise.allSettled(frameRows.map((f) => FRAMES.delete(f.key)));
-		return fail("Gagal menyimpan kampanye. Coba lagi sebentar lagi.", 500);
+		return fail("Failed to save the campaign. Please try again shortly.", 500);
 	}
 
 	return Response.json({ slug, editKey }, { status: 201 });

@@ -10,7 +10,7 @@ export async function POST(request: Request, { params }: Ctx) {
 	const { DB } = getEnv();
 
 	const campaign = await DB.prepare("SELECT id FROM campaigns WHERE slug = ?").bind(slug).first<{ id: string }>();
-	if (!campaign) return Response.json({ error: "Kampanye tidak ditemukan." }, { status: 404 });
+	if (!campaign) return Response.json({ error: "Campaign not found." }, { status: 404 });
 
 	await DB.batch([
 		DB.prepare("INSERT INTO reports (campaign_id, reason, created_at) VALUES (?, ?, ?)").bind(

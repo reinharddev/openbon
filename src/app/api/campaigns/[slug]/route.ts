@@ -11,11 +11,11 @@ export async function DELETE(request: Request, { params }: Ctx) {
 	const campaign = await DB.prepare("SELECT id, edit_key_hash FROM campaigns WHERE slug = ?")
 		.bind(slug)
 		.first<{ id: string; edit_key_hash: string }>();
-	if (!campaign) return Response.json({ error: "Kampanye tidak ditemukan." }, { status: 404 });
+	if (!campaign) return Response.json({ error: "Campaign not found." }, { status: 404 });
 
 	const hash = await sha256Hex(key);
 	if (!key || !timingSafeEqual(hash, campaign.edit_key_hash)) {
-		return Response.json({ error: "Kunci edit salah." }, { status: 403 });
+		return Response.json({ error: "Incorrect edit key." }, { status: 403 });
 	}
 
 	const { results } = await DB.prepare("SELECT r2_key FROM frames WHERE campaign_id = ?")

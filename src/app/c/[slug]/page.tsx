@@ -11,10 +11,10 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params;
 	const campaign = await getCampaignBySlug(slug);
-	if (!campaign) return { title: "Tidak ditemukan" };
+	if (!campaign) return { title: "Not found" };
 	return {
 		title: campaign.title,
-		description: campaign.description || `Pasang fotomu di frame "${campaign.title}".`,
+		description: campaign.description || `Add your photo to the "${campaign.title}" frame.`,
 		robots: campaign.visibility === "unlisted" ? { index: false } : undefined,
 	};
 }
@@ -31,7 +31,7 @@ export default async function CampaignPage({ params }: Props) {
 			<div>
 				<h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">{campaign.title}</h1>
 				{campaign.description ? <p className="mt-2 max-w-2xl text-muted">{campaign.description}</p> : null}
-				<p className="mt-2 text-sm text-muted">Sudah dipakai {campaign.uses.toLocaleString("id-ID")} kali</p>
+				<p className="mt-2 text-sm text-muted">Used {campaign.uses.toLocaleString("en-US")} times</p>
 			</div>
 
 			<PhotoEditor

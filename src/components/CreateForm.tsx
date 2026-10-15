@@ -23,15 +23,15 @@ export default function CreateForm() {
 	function onFiles(list: FileList | null) {
 		const next = Array.from(list ?? []);
 		if (next.length > MAX_FRAMES) {
-			setError(`Maksimal ${MAX_FRAMES} frame per kampanye.`);
+			setError(`Up to ${MAX_FRAMES} frames per campaign.`);
 			return;
 		}
 		if (next.some((f) => f.type !== "image/png")) {
-			setError("Frame harus berupa file PNG.");
+			setError("Frames must be PNG files.");
 			return;
 		}
 		if (next.some((f) => f.size > MAX_BYTES)) {
-			setError("Setiap frame maksimal 2 MB.");
+			setError("Each frame must be 2 MB or smaller.");
 			return;
 		}
 		setError(null);
@@ -41,7 +41,7 @@ export default function CreateForm() {
 	async function onSubmit(e: React.FormEvent) {
 		e.preventDefault();
 		if (files.length === 0) {
-			setError("Unggah minimal satu frame PNG.");
+			setError("Upload at least one PNG frame.");
 			return;
 		}
 		setBusy(true);
@@ -58,7 +58,7 @@ export default function CreateForm() {
 			const res = await fetch("/api/campaigns", { method: "POST", body });
 			const data = (await res.json()) as Created & { error?: string };
 			if (!res.ok) {
-				setError(data.error ?? "Gagal membuat kampanye.");
+				setError(data.error ?? "Failed to create the campaign.");
 				return;
 			}
 			try {
@@ -66,7 +66,7 @@ export default function CreateForm() {
 			} catch {}
 			setCreated({ slug: data.slug, editKey: data.editKey });
 		} catch {
-			setError("Tidak bisa terhubung ke server. Coba lagi.");
+			setError("Could not reach the server. Please try again.");
 		} finally {
 			setBusy(false);
 		}
@@ -76,13 +76,13 @@ export default function CreateForm() {
 		const shareUrl = `${window.location.origin}/c/${created.slug}`;
 		return (
 			<div className="flex flex-col gap-5 rounded-lg border border-border bg-surface p-5">
-				<h2 className="text-lg font-semibold">Kampanye berhasil dibuat</h2>
+				<h2 className="text-lg font-semibold">Campaign created</h2>
 				<div>
-					<p className="mb-1 text-sm font-medium">Link untuk dibagikan</p>
+					<p className="mb-1 text-sm font-medium">Share link</p>
 					<input readOnly value={shareUrl} onFocus={(e) => e.currentTarget.select()} className={inputClass} />
 				</div>
 				<div>
-					<p className="mb-1 text-sm font-medium">Kunci edit (simpan baik-baik)</p>
+					<p className="mb-1 text-sm font-medium">Edit key (keep it safe)</p>
 					<input
 						readOnly
 						value={created.editKey}
@@ -90,7 +90,7 @@ export default function CreateForm() {
 						className={`${inputClass} font-mono`}
 					/>
 					<p className="mt-1 text-xs text-muted">
-						Kunci ini dipakai untuk menghapus kampanye dan tidak bisa dipulihkan kalau hilang.
+						This key is needed to delete the campaign and cannot be recovered if lost.
 					</p>
 				</div>
 				<div className="flex flex-wrap gap-3">
@@ -98,13 +98,13 @@ export default function CreateForm() {
 						href={`/c/${created.slug}`}
 						className="rounded-md bg-accent px-4 py-2 font-medium text-accent-foreground hover:opacity-90"
 					>
-						Buka kampanye
+						Open campaign
 					</Link>
 					<Link
 						href={`/manage/${created.slug}`}
 						className="rounded-md border border-border px-4 py-2 font-medium hover:bg-background"
 					>
-						Kelola
+						Manage
 					</Link>
 				</div>
 			</div>
@@ -115,7 +115,7 @@ export default function CreateForm() {
 		<form onSubmit={onSubmit} className="flex flex-col gap-5">
 			<div>
 				<label htmlFor="title" className="mb-1 block text-sm font-medium">
-					Judul
+					Title
 				</label>
 				<input
 					id="title"
@@ -124,13 +124,13 @@ export default function CreateForm() {
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
 					className={inputClass}
-					placeholder="Contoh: Hari Kemerdekaan 2026"
+					placeholder="Contoh: Community Cleanup Day"
 				/>
 			</div>
 
 			<div>
 				<label htmlFor="description" className="mb-1 block text-sm font-medium">
-					Deskripsi <span className="font-normal text-muted">(opsional)</span>
+					Description <span className="font-normal text-muted">(optional)</span>
 				</label>
 				<textarea
 					id="description"
@@ -144,7 +144,7 @@ export default function CreateForm() {
 
 			<div>
 				<label htmlFor="frames" className="mb-1 block text-sm font-medium">
-					Frame (PNG transparan, maks. {MAX_FRAMES} file, 2 MB per file)
+					Frames (transparent PNG, up to {MAX_FRAMES} files, 2 MB each)
 				</label>
 				<input
 					id="frames"
@@ -154,12 +154,12 @@ export default function CreateForm() {
 					onChange={(e) => onFiles(e.target.files)}
 					className="block w-full text-sm file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-accent file:px-3 file:py-2 file:font-medium file:text-accent-foreground"
 				/>
-				{files.length > 0 ? <p className="mt-1 text-xs text-muted">{files.length} file dipilih</p> : null}
-				<p className="mt-1 text-xs text-muted">Ukuran 200 sampai 2048 piksel. Rasio persegi (1:1) paling cocok.</p>
+				{files.length > 0 ? <p className="mt-1 text-xs text-muted">{files.length} file(s) selected</p> : null}
+				<p className="mt-1 text-xs text-muted">Size 200 to 2048 px. Square (1:1) works best.</p>
 			</div>
 
 			<fieldset>
-				<legend className="mb-1 text-sm font-medium">Visibilitas</legend>
+				<legend className="mb-1 text-sm font-medium">Visibility</legend>
 				<div className="flex flex-col gap-2 text-sm">
 					<label className="flex items-start gap-2">
 						<input
@@ -170,8 +170,8 @@ export default function CreateForm() {
 							className="mt-1"
 						/>
 						<span>
-							<span className="font-medium">Hanya yang punya link</span>
-							<span className="block text-muted">Tidak muncul di halaman Jelajahi dan mesin pencari.</span>
+							<span className="font-medium">Anyone with the link</span>
+							<span className="block text-muted">Not listed on Explore or in search engines.</span>
 						</span>
 					</label>
 					<label className="flex items-start gap-2">
@@ -183,8 +183,8 @@ export default function CreateForm() {
 							className="mt-1"
 						/>
 						<span>
-							<span className="font-medium">Publik</span>
-							<span className="block text-muted">Tampil di halaman Jelajahi.</span>
+							<span className="font-medium">Public</span>
+							<span className="block text-muted">Listed on the Explore page.</span>
 						</span>
 					</label>
 				</div>
@@ -192,7 +192,7 @@ export default function CreateForm() {
 
 			<div>
 				<label htmlFor="slug" className="mb-1 block text-sm font-medium">
-					Link khusus <span className="font-normal text-muted">(opsional)</span>
+					Custom link <span className="font-normal text-muted">(optional)</span>
 				</label>
 				<div className="flex items-center gap-2">
 					<span className="text-sm text-muted">/c/</span>
@@ -202,7 +202,7 @@ export default function CreateForm() {
 						onChange={(e) => setSlug(e.target.value)}
 						pattern="[a-z0-9][a-z0-9\-]{1,38}[a-z0-9]"
 						className={inputClass}
-						placeholder="hari-kemerdekaan-2026"
+						placeholder="community-cleanup-day"
 					/>
 				</div>
 			</div>
@@ -214,7 +214,7 @@ export default function CreateForm() {
 				disabled={busy}
 				className="rounded-md bg-accent px-4 py-2.5 font-medium text-accent-foreground hover:opacity-90 disabled:opacity-50"
 			>
-				{busy ? "Menyimpan..." : "Buat kampanye"}
+				{busy ? "Saving..." : "Create campaign"}
 			</button>
 		</form>
 	);

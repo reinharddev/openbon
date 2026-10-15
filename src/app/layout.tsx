@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
 	title: { default: "OpenBon", template: "%s · OpenBon" },
 	description:
-		"Bikin dan pakai frame foto untuk kampanye, acara, atau komunitas secara gratis. Tanpa watermark, tanpa iklan, tanpa pelacakan. Open source.",
+		"Create and use photo frames for campaigns, events, and communities. No watermark, no ads, no tracking. Open source.",
 };
 
 const donateUrl = process.env.NEXT_PUBLIC_DONATE_URL;
@@ -17,7 +17,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="id">
+		<html lang="en">
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 			</head>
@@ -29,13 +29,13 @@ export default function RootLayout({
 						</Link>
 						<div className="flex items-center gap-5 text-sm">
 							<Link href="/explore" className="text-muted hover:text-foreground">
-								Jelajahi
+								Explore
 							</Link>
 							<Link
 								href="/create"
 								className="rounded-md bg-accent px-3 py-1.5 font-medium text-accent-foreground hover:opacity-90"
 							>
-								Buat kampanye
+								Create campaign
 							</Link>
 						</div>
 					</nav>
@@ -43,11 +43,11 @@ export default function RootLayout({
 				<main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
 				<footer className="border-t border-border">
 					<div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-						<p>Gratis, tanpa watermark, tanpa iklan. Foto kamu diproses di browser dan tidak pernah diunggah.</p>
+						<p>Free, no watermark, no ads. Your photo is processed in your browser and never uploaded.</p>
 						<div className="flex gap-4">
 							{donateUrl ? (
 								<a href={donateUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
-									Traktir kopi
+									Buy me a coffee
 								</a>
 							) : null}
 							{repoUrl ? (
