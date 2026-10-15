@@ -143,22 +143,8 @@ export default function PhotoEditor({ slug, frames }: Props) {
 	}
 
 	return (
-		<div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_320px]">
-			<div className="card card-violet checker overflow-hidden">
-				<canvas
-					ref={canvasRef}
-					width={frame.width}
-					height={frame.height}
-					className="block h-auto w-full touch-none"
-					style={{ cursor: photo ? "grab" : "default", aspectRatio: `${frame.width} / ${frame.height}` }}
-					onPointerDown={onPointerDown}
-					onPointerMove={onPointerMove}
-					onPointerUp={onPointerUp}
-					onPointerCancel={onPointerUp}
-				/>
-			</div>
-
-			<div className="flex flex-col gap-5">
+		<div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_320px] md:items-start">
+			<div className="flex flex-col gap-5 md:col-start-2 md:row-start-1">
 				<div>
 					<label className="mb-2 block text-sm font-extrabold" htmlFor="photo">
 						1. Choose a photo
@@ -176,7 +162,7 @@ export default function PhotoEditor({ slug, frames }: Props) {
 				{frames.length > 1 ? (
 					<div>
 						<p className="mb-2 text-sm font-extrabold">Choose a frame</p>
-						<div className="grid grid-cols-4 gap-2">
+						<div className="grid grid-cols-4 gap-2 sm:grid-cols-5 md:grid-cols-4">
 							{frames.map((f) => (
 								<button
 									key={f.id}
@@ -194,7 +180,23 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						</div>
 					</div>
 				) : null}
+			</div>
 
+			<div className="card card-violet checker mx-auto w-full max-w-[min(100%,70vh)] overflow-hidden md:col-start-1 md:row-span-2 md:row-start-1 md:max-w-none">
+				<canvas
+					ref={canvasRef}
+					width={frame.width}
+					height={frame.height}
+					className="block h-auto w-full touch-none"
+					style={{ cursor: photo ? "grab" : "default", aspectRatio: `${frame.width} / ${frame.height}` }}
+					onPointerDown={onPointerDown}
+					onPointerMove={onPointerMove}
+					onPointerUp={onPointerUp}
+					onPointerCancel={onPointerUp}
+				/>
+			</div>
+
+			<div className="flex flex-col gap-5 md:col-start-2 md:row-start-2">
 				<div>
 					<label className="mb-2 block text-sm font-extrabold" htmlFor="zoom">
 						2. Adjust position
@@ -210,29 +212,22 @@ export default function PhotoEditor({ slug, frames }: Props) {
 						onChange={(e) => setTransform((t) => ({ ...t, scale: Number(e.target.value) }))}
 						className="range"
 					/>
-					<div className="mt-2 flex items-center justify-between text-xs text-muted">
+					<div className="mt-2 flex items-center justify-between gap-3 text-xs text-muted">
 						<span>Drag the photo in the preview, pinch to zoom.</span>
 						<button
 							type="button"
 							disabled={!photo}
 							onClick={() => setTransform(INITIAL)}
-							className="underline disabled:no-underline disabled:opacity-50"
+							className="tap shrink-0 font-bold underline disabled:no-underline disabled:opacity-50"
 						>
 							Reset
 						</button>
 					</div>
 				</div>
 
-				<div>
-					<button
-						type="button"
-						onClick={onDownload}
-						disabled={!photo || busy}
-						className="btn btn-lime w-full"
-					>
-						3. Download
-					</button>
-				</div>
+				<button type="button" onClick={onDownload} disabled={!photo || busy} className="btn btn-lime w-full">
+					3. Download
+				</button>
 			</div>
 		</div>
 	);

@@ -31,7 +31,7 @@ export default function RootLayout({
 							OpenBon
 						</Link>
 						<div className="flex items-center gap-4 text-sm font-bold">
-							<Link href="/explore" className="text-muted hover:text-foreground">
+							<Link href="/explore" className="tap text-muted hover:text-foreground">
 								Explore
 							</Link>
 							<Link href="/create" className="btn btn-lime btn-sm">
@@ -42,19 +42,19 @@ export default function RootLayout({
 				</header>
 				<main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
 				<footer className="border-t-2 border-border">
-					<div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-						<p>Free, no watermark, no ads. Your photo is processed in your browser and never uploaded.</p>
-						<div className="flex gap-4 font-bold">
-							<Link href="/thanks" className="hover:text-foreground">
+					<div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-6 text-sm text-muted md:flex-row md:items-center md:justify-between">
+						<p className="md:max-w-md">Free, no watermark, no ads. Your photo is processed in your browser and never uploaded.</p>
+						<div className="flex flex-wrap gap-x-5 whitespace-nowrap font-bold">
+							<Link href="/thanks" className="tap hover:text-foreground">
 								Special thanks
 							</Link>
 							{donateUrl ? (
-								<a href={donateUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+								<a href={donateUrl} target="_blank" rel="noopener noreferrer" className="tap hover:text-foreground">
 									Support OpenBon
 								</a>
 							) : null}
 							{repoUrl ? (
-								<a href={repoUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+								<a href={repoUrl} target="_blank" rel="noopener noreferrer" className="tap hover:text-foreground">
 									GitHub
 								</a>
 							) : null}

@@ -28,7 +28,7 @@ export default function ReportButton({ slug }: { slug: string }) {
 
 	if (!open) {
 		return (
-			<button type="button" onClick={() => setOpen(true)} className="text-sm font-bold text-muted underline hover:text-foreground">
+			<button type="button" onClick={() => setOpen(true)} className="tap text-sm font-bold text-muted underline hover:text-foreground">
 				Report this campaign
 			</button>
 		);
@@ -51,7 +51,7 @@ export default function ReportButton({ slug }: { slug: string }) {
 				<button type="submit" disabled={state === "sending"} className="btn btn-danger btn-sm">
 					Submit report
 				</button>
-				<button type="button" onClick={() => setOpen(false)} className="text-sm font-bold text-muted underline">
+				<button type="button" onClick={() => setOpen(false)} className="tap text-sm font-bold text-muted underline">
 					Cancel
 				</button>
 				{state === "error" ? <span className="text-sm text-danger">Failed to send, please try again.</span> : null}

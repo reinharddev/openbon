@@ -91,6 +91,7 @@ body {
 		font-weight: 800;
 		font-size: 0.95rem;
 		line-height: 1.2;
+		min-height: 44px;
 		cursor: pointer;
 		transition:
 			transform 80ms ease-out,
@@ -135,6 +136,13 @@ body {
 	.btn-sm {
 		padding: 0.4rem 0.75rem;
 		font-size: 0.85rem;
+		min-height: 40px;
+	}
+
+	.tap {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
 	}
 
 	.card {

@@ -52,7 +52,7 @@ export default function ManagePanel({ slug }: { slug: string }) {
 	return (
 		<div className="flex flex-col gap-5">
 			<div>
-				<Link href={`/c/${slug}`} className="font-bold text-accent-ink underline">
+				<Link href={`/c/${slug}`} className="tap font-bold text-accent-ink underline">
 					/c/{slug}
 				</Link>
 			</div>
